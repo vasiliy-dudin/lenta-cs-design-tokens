@@ -1,0 +1,34 @@
+{
+	"Components/Sizes": {
+		"button-size-1": {
+			"$type": "number",
+			"$value": 18
+		},
+		"button-size-2": {
+			"$type": "number",
+			"$value": 24
+		},
+		"dialog": {
+			"size-xs": {
+				"$type": "number",
+				"$value": 444
+			},
+			"size-s": {
+				"$type": "number",
+				"$value": 600
+			},
+			"size-m": {
+				"$type": "number",
+				"$value": 900
+			},
+			"size-l": {
+				"$type": "number",
+				"$value": 1200
+			},
+			"size-lg": {
+				"$type": "number",
+				"$value": 800
+			}
+		}
+	}
+}

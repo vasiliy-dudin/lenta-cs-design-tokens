@@ -1,0 +1,112 @@
+{
+	"Semantic/States": {
+		"disabled": {
+			"filled": {
+				"$type": "number",
+				"$value": {
+					"Light": 46,
+					"Dark": 46
+				}
+			},
+			"nonfilled": {
+				"$type": "number",
+				"$value": {
+					"Light": 26,
+					"Dark": 26
+				}
+			}
+		},
+		"opacity": {
+			"flat": {
+				"hover": {
+					"$type": "number",
+					"$value": {
+						"Light": 8,
+						"Dark": 8
+					}
+				},
+				"focus": {
+					"$type": "number",
+					"$value": {
+						"Light": 24,
+						"Dark": 24
+					}
+				},
+				"active": {
+					"$type": "number",
+					"$value": {
+						"Light": 24,
+						"Dark": 24
+					}
+				},
+				"active-hover": {
+					"$type": "number",
+					"$value": {
+						"Light": 32,
+						"Dark": 32
+					}
+				}
+			},
+			"tonal": {
+				"hover": {
+					"$type": "number",
+					"$value": {
+						"Light": 4,
+						"Dark": 4
+					}
+				},
+				"focus": {
+					"$type": "number",
+					"$value": {
+						"Light": 12,
+						"Dark": 12
+					}
+				},
+				"active": {
+					"$type": "number",
+					"$value": {
+						"Light": 12,
+						"Dark": 12
+					}
+				},
+				"active-hover": {
+					"$type": "number",
+					"$value": {
+						"Light": 16,
+						"Dark": 16
+					}
+				}
+			},
+			"outlined-text": {
+				"hover": {
+					"$type": "number",
+					"$value": {
+						"Light": 4,
+						"Dark": 4
+					}
+				},
+				"focus": {
+					"$type": "number",
+					"$value": {
+						"Light": 12,
+						"Dark": 12
+					}
+				},
+				"active": {
+					"$type": "number",
+					"$value": {
+						"Light": 12,
+						"Dark": 12
+					}
+				},
+				"active-hover": {
+					"$type": "number",
+					"$value": {
+						"Light": 16,
+						"Dark": 16
+					}
+				}
+			}
+		}
+	}
+}
