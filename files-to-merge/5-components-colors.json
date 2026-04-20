@@ -75,6 +75,22 @@
 				}
 			}
 		},
+		"button": {
+			"disabled-filled": {
+				"$type": "number",
+				"$value": {
+					"Light": 46.15,
+					"Dark": 46.15
+				}
+			},
+			"disabled-nonfilled": {
+				"$type": "number",
+				"$value": {
+					"Light": 26,
+					"Dark": 26
+				}
+			}
+		},
 		"backdrop": {
 			"fill": {
 				"$type": "color",

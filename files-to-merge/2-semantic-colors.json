@@ -557,6 +557,64 @@
 				}
 			}
 		},
+		"tonal": {
+			"default": {
+				"$type": "color",
+				"$value": {
+					"Light": "alpha({schemes.default}, 12%)",
+					"Dark": "alpha({schemes.default}, 12%)"
+				}
+			},
+			"primary": {
+				"$type": "color",
+				"$value": {
+					"Light": "alpha({schemes.primary}, 12%)",
+					"Dark": "alpha({schemes.primary}, 12%)"
+				}
+			},
+			"secondary": {
+				"$type": "color",
+				"$value": {
+					"Light": "alpha({schemes.secondary}, 12%)",
+					"Dark": "alpha({schemes.secondary}, 12%)"
+				}
+			},
+			"tertiary": {
+				"$type": "color",
+				"$value": {
+					"Light": "alpha({schemes.tertiary}, 12%)",
+					"Dark": "alpha({schemes.tertiary}, 12%)"
+				}
+			},
+			"info": {
+				"$type": "color",
+				"$value": {
+					"Light": "alpha({schemes.info}, 12%)",
+					"Dark": "alpha({schemes.info}, 12%)"
+				}
+			},
+			"warning": {
+				"$type": "color",
+				"$value": {
+					"Light": "alpha({schemes.warning}, 12%)",
+					"Dark": "alpha({schemes.warning}, 12%)"
+				}
+			},
+			"error": {
+				"$type": "color",
+				"$value": {
+					"Light": "alpha({schemes.error}, 12%)",
+					"Dark": "alpha({schemes.error}, 12%)"
+				}
+			},
+			"success": {
+				"$type": "color",
+				"$value": {
+					"Light": "alpha({schemes.success}, 12%)",
+					"Dark": "alpha({schemes.success}, 12%)"
+				}
+			}
+		},
 		"divider": {
 			"$type": "color",
 			"$value": {
