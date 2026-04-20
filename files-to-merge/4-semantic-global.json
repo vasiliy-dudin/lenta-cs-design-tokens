@@ -9,6 +9,18 @@
 				"$type": "number",
 				"$value": 0
 			}
+		},
+		"states": {
+			"disabled": {
+				"filled": {
+					"$type": "number",
+					"$value": 46
+				},
+				"nonfilled": {
+					"$type": "number",
+					"$value": 26
+				}
+			}
 		}
 	}
 }
