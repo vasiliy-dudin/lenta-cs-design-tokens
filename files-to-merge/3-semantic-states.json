@@ -16,34 +16,33 @@
 				}
 			}
 		},
-		"opacity": {
+		"_state-base": {
+			"hover":     { "$type": "number", "$value": 0.04  },
+			"focus":     { "$type": "number", "$value": 0.12 },
+			"activated": { "$type": "number", "$value": 0.12 },
+			"ripple":    { "$type": "number", "$value": 0.25 }
+		},
+		"state-opacity": {
 			"flat": {
 				"hover": {
 					"$type": "number",
 					"$value": {
-						"Light": 8,
-						"Dark": 8
+						"Light": "{_state-base.hover} * 2 * 100",
+						"Dark": "{_state-base.hover} * 1 * 100"
 					}
 				},
 				"focus": {
 					"$type": "number",
 					"$value": {
-						"Light": 24,
-						"Dark": 24
+						"Light": "{_state-base.focus} * 2 * 100",
+						"Dark": "{_state-base.focus} * 1 * 100"
 					}
 				},
-				"active": {
+				"pressed": {
 					"$type": "number",
 					"$value": {
-						"Light": 24,
-						"Dark": 24
-					}
-				},
-				"active-hover": {
-					"$type": "number",
-					"$value": {
-						"Light": 32,
-						"Dark": 32
+						"Light": "(1 - (1 - {_state-base.hover} * 2) * (1 - {_state-base.ripple} * 2)) * 100",
+						"Dark":  "(1 - (1 - {_state-base.hover} * 1) * (1 - {_state-base.ripple} * 1)) * 100"
 					}
 				}
 			},
@@ -51,29 +50,22 @@
 				"hover": {
 					"$type": "number",
 					"$value": {
-						"Light": 4,
-						"Dark": 4
+						"Light": "{_state-base.hover} * 1 * 100",
+						"Dark": "{_state-base.hover} * 1 * 100"
 					}
 				},
 				"focus": {
 					"$type": "number",
 					"$value": {
-						"Light": 12,
-						"Dark": 12
+						"Light": "{_state-base.focus} * 1 * 100",
+						"Dark": "{_state-base.focus} * 1 * 100"
 					}
 				},
-				"active": {
+				"pressed": {
 					"$type": "number",
 					"$value": {
-						"Light": 12,
-						"Dark": 12
-					}
-				},
-				"active-hover": {
-					"$type": "number",
-					"$value": {
-						"Light": 16,
-						"Dark": 16
+						"Light": "(1 - (1 - {_state-base.hover}) * (1 - {_state-base.ripple})) * 100",
+						"Dark":  "(1 - (1 - {_state-base.hover}) * (1 - {_state-base.ripple})) * 100"
 					}
 				}
 			},
@@ -81,29 +73,22 @@
 				"hover": {
 					"$type": "number",
 					"$value": {
-						"Light": 4,
-						"Dark": 4
+						"Light": "{_state-base.hover} * 1 * 100",
+						"Dark": "{_state-base.hover} * 1 * 100"
 					}
 				},
 				"focus": {
 					"$type": "number",
 					"$value": {
-						"Light": 12,
-						"Dark": 12
+						"Light": "{_state-base.focus} * 1 * 100",
+						"Dark": "{_state-base.focus} * 1 * 100"
 					}
 				},
-				"active": {
+				"pressed": {
 					"$type": "number",
 					"$value": {
-						"Light": 12,
-						"Dark": 12
-					}
-				},
-				"active-hover": {
-					"$type": "number",
-					"$value": {
-						"Light": 16,
-						"Dark": 16
+						"Light": "(1 - (1 - {_state-base.hover}) * (1 - {_state-base.ripple})) * 100",
+						"Dark": "(1 - (1 - {_state-base.hover}) * (1 - {_state-base.ripple})) * 100"
 					}
 				}
 			}
