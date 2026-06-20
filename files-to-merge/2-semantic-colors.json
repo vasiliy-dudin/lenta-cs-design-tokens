@@ -503,27 +503,14 @@
 				}
 			}
 		},
-		"divider": {
-			"$type": "color",
-			"$value": {
-				"Light": "rgba(0, 0, 0, 0.12)",
-				"Dark": "rgba(255, 255, 255, 0.12)"
-			}
-		},
+
 		"elevation": {
 			"outlined": {
 				"$type": "color",
 				"$value": {
 					"Light": "#e0e0e0",
-					"Dark": "{divider}"
+					"Dark": "{NAME-IT.divider}"
 				}
-			}
-		},
-		"border-color": {
-			"$type": "color",
-			"$value": {
-				"Light": "#000000",
-				"Dark": "#ffffff"
 			}
 		},
 		"NAME-IT": {
@@ -532,6 +519,35 @@
 				"$value": {
 					"Light": "#ffffff",
 					"Dark": "#000000"
+				}
+			},
+			"divider": {
+				"$type": "color",
+				"$value": {
+					"Light": "rgba(0, 0, 0, 0.12)",
+					"Dark": "rgba(255, 255, 255, 0.12)"
+				}
+			}
+		},
+		"radius": {
+			"xs": {
+				"$type": "number",
+				"$value": 4
+			},
+			"none": {
+				"$type": "number",
+				"$value": 0
+			}
+		},
+		"states": {
+			"disabled": {
+				"filled": {
+					"$type": "number",
+					"$value": 46
+				},
+				"nonfilled": {
+					"$type": "number",
+					"$value": 26
 				}
 			}
 		}
