@@ -1,5 +1,5 @@
 {
-	"Semantic/Colors": {
+	"Semantic": {
 		"text": {
 			"primary": {
 				"$type": "color",
