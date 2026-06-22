@@ -12,11 +12,11 @@ Design tokens for the Lenta Omni Support Admin design system, shared between Fig
 
 ```bash
 pnpm install
-npm run tokens:merge   # src/*.json → dist/tokens.json
-npm run theme:build    # dist/tokens.json → dist/vuetify-theme.js
+npm run merge-tokens   # src/*.json → dist/tokens.json
+npm run build-theme    # dist/tokens.json → dist/vuetify-theme.js
 ```
 
-Don't edit files in `dist/` directly — edit the matching file in `src/` and re-run `tokens:merge`.
+Don't edit files in `dist/` directly — edit the matching file in `src/` and re-run `merge-tokens`.
 
 ## Token format
 

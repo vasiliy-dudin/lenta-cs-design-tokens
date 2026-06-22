@@ -29,7 +29,7 @@ dist/vuetify-theme.json (alternate path: resolves dist/tokens.json directly, wit
 ```
 
 - `dist/tokens.json` is a **build artifact**. Never hand-edit it without also updating the matching file in `src/`, or the next merge run will silently overwrite your change.
-- Run `npm run tokens:merge` after editing any `src/*.json` file to regenerate `dist/tokens.json`.
+- Run `npm run merge-tokens` after editing any `src/*.json` file to regenerate `dist/tokens.json`.
 - "Collections" = top-level keys in the JSON (e.g. `"Semantic"`, `"Components/Colors"`). They map 1:1 to Figma Variable Collections.
 
 ## Token Format
@@ -46,7 +46,7 @@ dist/vuetify-theme.json (alternate path: resolves dist/tokens.json directly, wit
 
 ## What NOT to Touch Without Asking
 
-- `dist/tokens.json` — it's generated; edit the corresponding `src/*.json` instead and re-run `npm run tokens:merge`.
+- `dist/tokens.json` — it's generated; edit the corresponding `src/*.json` instead and re-run `npm run merge-tokens`.
 - Top-level collection names (e.g. renaming `"Semantic"`) — bare-path aliases resolve across the entire merged tree, so a rename can silently break references in other collections/files.
 - `scripts/merge-tokens.js` — small and load-bearing; changing its merge semantics changes how every `src/*.json` file combines.
 - Anything under `scripts/vuetify-theme/core/` — this is a copied snapshot of the resolver logic from the external plugin (see below), kept in sync manually. Don't "fix" it locally without checking the upstream plugin first, or the two will drift apart silently.

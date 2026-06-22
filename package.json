@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "tokens:merge": "node scripts/merge-tokens.js",
-    "theme:build": "tsx scripts/vuetify-theme/build.ts"
+    "merge-tokens": "node scripts/merge-tokens.js",
+    "build-theme": "tsx scripts/vuetify-theme/build.ts"
   },
   "dependencies": {
     "culori": "^4.0.2",
