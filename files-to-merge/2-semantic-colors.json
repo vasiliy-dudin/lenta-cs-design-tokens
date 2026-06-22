@@ -514,13 +514,6 @@
       }
     },
     "border": {
-      "border-color": {
-        "$type": "color",
-        "$value": {
-          "Light": "#ffffff",
-          "Dark": "#000000"
-        }
-      },
       "divider": {
         "$type": "color",
         "$value": {
@@ -548,6 +541,120 @@
         "nonfilled": {
           "$type": "number",
           "$value": 26
+        }
+      }
+    },
+    "variables": {
+      "border-color": {
+        "$type": "color",
+        "$value": {
+          "Light": "#000000",
+          "Dark": "#ffffff"
+        }
+      },
+      "border-opacity": {
+        "$type": "number",
+        "$value": {
+          "Light": 0.12,
+          "Dark": 0.12
+        }
+      },
+      "high-emphasis-opacity": {
+        "$type": "number",
+        "$value": {
+          "Light": 0.87,
+          "Dark": 1
+        }
+      },
+      "medium-emphasis-opacity": {
+        "$type": "number",
+        "$value": {
+          "Light": 0.6,
+          "Dark": 0.7
+        }
+      },
+      "disabled-opacity": {
+        "$type": "number",
+        "$value": {
+          "Light": 0.38,
+          "Dark": 0.5
+        }
+      },
+      "idle-opacity": {
+        "$type": "number",
+        "$value": {
+          "Light": 0.04,
+          "Dark": 0.1
+        }
+      },
+      "hover-opacity": {
+        "$type": "number",
+        "$value": {
+          "Light": 0.04,
+          "Dark": 0.04
+        }
+      },
+      "focus-opacity": {
+        "$type": "number",
+        "$value": {
+          "Light": 0.12,
+          "Dark": 0.12
+        }
+      },
+      "selected-opacity": {
+        "$type": "number",
+        "$value": {
+          "Light": 0.08,
+          "Dark": 0.08
+        }
+      },
+      "activated-opacity": {
+        "$type": "number",
+        "$value": {
+          "Light": 0.12,
+          "Dark": 0.12
+        }
+      },
+      "pressed-opacity": {
+        "$type": "number",
+        "$value": {
+          "Light": 0.12,
+          "Dark": 0.16
+        }
+      },
+      "dragged-opacity": {
+        "$type": "number",
+        "$value": {
+          "Light": 0.08,
+          "Dark": 0.08
+        }
+      },
+      "theme-kbd": {
+        "$type": "color",
+        "$value": {
+          "Light": "#EEEEEE",
+          "Dark": "#424242"
+        }
+      },
+      "theme-on-kbd": {
+        "$type": "color",
+        "$value": {
+          "Light": "#000000",
+          "Dark": "#FFFFFF"
+        }
+      },
+      "theme-code": {
+        "$type": "color",
+        "$value": {
+          "Light": "#F5F5F5",
+          "Dark": "#343434"
+        }
+      },
+      "theme-on-code": {
+        "$type": "color",
+        "$value": {
+          "Light": "#000000",
+          "Dark": "#CCCCCC"
         }
       }
     }
