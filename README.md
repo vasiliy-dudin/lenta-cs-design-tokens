@@ -1,5 +1,5 @@
 This is a place for storing and refining design tokens in JSON format. 
-The `tokens.json` file serves as the single source of truth for the entire Lenta Omni Support Admin — covering both Figma and the frontend.
+The `dist/tokens.json` file serves as the single source of truth for the entire Lenta Omni Support Admin — covering both Figma and the frontend.
 
 - The term "collections" here refers to top-level JSON entities, e.g. `"Semantic/Colors"`. They are called collections in Figma Variables.
 - These tokens will be exported to Figma Variables and then passed to the frontend via the Vuetify framework. All collections and modes are stored in a single file.

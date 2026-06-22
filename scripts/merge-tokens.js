@@ -1,8 +1,7 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
 
-const SOURCE_DIR = path.join(__dirname, 'files-to-merge');
-const OUTPUT_FILE = path.join(__dirname, 'tokens.json');
+const SOURCE_DIR = new URL('../src/', import.meta.url);
+const OUTPUT_FILE = new URL('../dist/tokens.json', import.meta.url);
 
 function deepMerge(target, source) {
   for (const key of Object.keys(source)) {
@@ -33,18 +32,18 @@ const files = fs
   .sort((a, b) => getNumericPrefix(a) - getNumericPrefix(b));
 
 if (files.length === 0) {
-  console.error('No .json files found in files-to-merge/');
+  console.error('No .json files found in src/');
   process.exit(1);
 }
 
 const merged = {};
 
 for (const file of files) {
-  const filePath = path.join(SOURCE_DIR, file);
-  const content = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  const fileUrl = new URL(file, SOURCE_DIR);
+  const content = JSON.parse(fs.readFileSync(fileUrl, 'utf-8'));
   deepMerge(merged, content);
   console.log(`Merged: ${file}`);
 }
 
 fs.writeFileSync(OUTPUT_FILE, JSON.stringify(merged, null, 2), 'utf-8');
-console.log(`\nWritten to tokens.json`);
+console.log(`\nWritten to dist/tokens.json`);
