@@ -40,4 +40,21 @@ export default {
 	exclude: [
 		// 'Semantic.schemes.default',
 	],
+
+	// Static values to add to the generated output, on top of what's resolved
+	// from tokens. Keyed by theme name (must match a key in `modes` above),
+	// then by target (e.g. "colors", "variables"), then by output key → value.
+	// Build fails if a key here collides with one already resolved from tokens.
+	extra: {
+		dark: {
+			colors: {
+				darken: '#ffffff',
+			},
+		},
+		light: {
+			colors: {
+				darken: '#000000',
+			},
+		},
+	},
 };

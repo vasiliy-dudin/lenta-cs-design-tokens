@@ -15,6 +15,24 @@ function formatValidationErrors(errors: ValidationError[]): string {
 		.join('\n');
 }
 
+function mergeExtra(resolved: ResolvedThemes, extra: Record<string, Record<string, Record<string, string | number>>>): void {
+	for (const [themeName, targets] of Object.entries(extra)) {
+		const theme = resolved[themeName];
+		if (!theme) {
+			throw new Error(`config.extra references theme "${themeName}", which is not declared in config.modes.`);
+		}
+		for (const [target, values] of Object.entries(targets)) {
+			theme[target] ??= {};
+			for (const [key, value] of Object.entries(values)) {
+				if (key in theme[target]) {
+					throw new Error(`config.extra: "${themeName}.${target}.${key}" collides with a value already resolved from tokens.`);
+				}
+				theme[target][key] = value;
+			}
+		}
+	}
+}
+
 function buildThemes(resolved: ResolvedThemes): Record<string, unknown> {
 	const themes: Record<string, unknown> = {};
 	for (const [themeName, theme] of Object.entries(resolved)) {
@@ -40,6 +58,7 @@ function main(): void {
 	try {
 		const selected = selectTokens(validation.data, config);
 		const resolved = resolveValues(validation.data, selected, config.modes);
+		mergeExtra(resolved, config.extra);
 		const output = { themes: buildThemes(resolved) };
 
 		writeFileSync(config.outputFile, JSON.stringify(output, null, 2));
