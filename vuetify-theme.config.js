@@ -48,11 +48,33 @@ export default {
 	extra: {
 		dark: {
 			colors: {
+				'error-text': '#FFFFFF',
+				'alert-warning': '#663C00',
+				'secondary-darken-2': '#5B5E72',
+				'table-surface': '#0F0E0D',
+				defaultLayout: '#212121',
+				baseLayout: '#212121',
+				actionLayout: '#424242',
+				defaultIcon: '#FFFFFF',
+				menuIcon: '#ffffffff',
 				darken: '#ffffff',
 			},
 		},
 		light: {
 			colors: {
+				background: '#FFFFFF',
+				'primary-darken-1': '#5E43A3',
+				'secondary-darken-1': '#57516A',
+				'secondary-darken-2': '#5B5E72',
+				'error-text': '#FFFFFF',
+				'error-darken-1': '#A31212',
+				'table-surface': '#FBF9F9',
+				'alert-warning': '#FFE2B7',
+				defaultIcon: '#212121',
+				menuIcon: '#757575',
+				defaultLayout: '#FFFFFF',
+				baseLayout: '#F5F5F5',
+				actionLayout: '#E3F2FD',
 				darken: '#000000',
 			},
 		},
