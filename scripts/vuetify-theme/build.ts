@@ -3,6 +3,7 @@ import { validate } from './core/validator';
 import { ValidationError } from './core/types';
 import { selectTokens } from './selectTokens';
 import { resolveValues, ResolvedThemes } from './resolveValues';
+import { serializeJsModule } from './serializeJsModule';
 import config from '../../vuetify-theme.config.js';
 
 function readTokenJson(): unknown {
@@ -61,7 +62,7 @@ function main(): void {
 		mergeExtra(resolved, config.extra);
 		const output = { themes: buildThemes(resolved) };
 
-		writeFileSync(config.outputFile, JSON.stringify(output, null, 2));
+		writeFileSync(config.outputFile, serializeJsModule(output));
 		console.log(`Wrote ${Object.keys(output.themes).length} theme(s) to ${config.outputFile}`);
 	} catch (err) {
 		console.error(`Theme generation failed: ${err instanceof Error ? err.message : String(err)}`);
