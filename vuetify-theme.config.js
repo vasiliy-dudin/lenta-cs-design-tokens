@@ -3,7 +3,7 @@ export default {
 	inputFile: new URL('./dist/tokens.json', import.meta.url),
 
 	// Where the generated Vuetify theme JSON gets written, relative to this config file.
-	outputFile: new URL('./dist/vuetify-theme.js', import.meta.url),
+	outputFile: new URL('./dist/vuetify-theme.json', import.meta.url),
 
 	// Vuetify theme name → mode key used in each token's $value object.
 	modes: {
