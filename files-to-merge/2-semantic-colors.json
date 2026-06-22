@@ -544,7 +544,7 @@
         }
       }
     },
-    "variables": {
+    "vuetify-variables": {
       "border-color": {
         "$type": "color",
         "$value": {
