@@ -271,8 +271,8 @@
 			"bg-striped": {
 				"$type": "color",
 				"$value": {
-					"Light": "rgba(0, 0, 0, 0.04)",
-					"Dark": "rgba(255, 255, 255, 0.04)"
+					"Light": "alpha({vuetify-variables.border-color}, {vuetify-variables.hover-opacity})",
+					"Dark": "alpha({vuetify-variables.border-color}, {vuetify-variables.hover-opacity})"
 				}
 			}
 		},
