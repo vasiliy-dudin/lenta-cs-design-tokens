@@ -2,7 +2,7 @@
 description: Core project context — what this project is, the token pipeline, and what not to touch
 ---
 
-# Project Context — Lenta OSA Design Tokens
+# Project Context — Lenta CS Admin Design Tokens
 
 ## What This Project Is
 

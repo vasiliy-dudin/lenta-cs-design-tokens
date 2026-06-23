@@ -1,4 +1,4 @@
-# Lenta OSA Design Tokens
+# Lenta CS Admin Design Tokens
 
 Design tokens for the Lenta Omni Support Admin design system, shared between Figma and the frontend.
 
