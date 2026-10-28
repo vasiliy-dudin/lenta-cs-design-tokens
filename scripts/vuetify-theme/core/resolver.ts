@@ -1,8 +1,11 @@
 import { formatHex, formatRgb, parse as parseColor, converter } from 'culori';
-import { ResolvedValue, TokenMap, RGBA, ColorModifyFn, AmountValue } from './types';
+import { ResolvedValue, TokenMap, RGBA, ColorModifyFn, AmountValue, Token } from './types';
 import { parseExpression } from './parser';
 import { CircularDependencyError } from './validator';
-import { PATTERNS } from './constants';
+import { PATTERNS, COLOR_OPACITY_SCOPE } from './constants';
+import { evaluateArithmetic } from './arithmetic';
+import { evaluateAmountExpression } from './amountExpression';
+import { extractTokenReferences } from './tokenUtils';
 
 const toRgb = converter('rgb');
 const toOklch = converter('oklch');
@@ -66,14 +69,14 @@ export function resolveToken(
 	if (visited.has(tokenPath)) {
 		throw new CircularDependencyError(`Circular dependency: ${[...visited, tokenPath].join(' → ')}`);
 	}
-
+	
 	visited.add(tokenPath);
-
+	
 	const token = tokenMap.get(tokenPath);
 	if (!token) {
 		throw new Error(`Token not found: ${tokenPath}`);
 	}
-
+	
 	const value =
 		typeof token.$value === 'string' || typeof token.$value === 'number'
 			? token.$value
@@ -81,17 +84,17 @@ export function resolveToken(
 	if (value === undefined) {
 		throw new Error(`Mode "${mode}" not found for token: ${tokenPath}`);
 	}
-
+	
 	const expr = parseExpression(value, token.$type);
-
+	
 	switch (expr.type) {
 		case 'literal':
 			return { isAlias: false, value: expr.value };
-
+		
 		case 'alias':
 			// Return as native Figma alias (not computed)
 			return { isAlias: true, targetPath: expr.path };
-
+		
 		case 'alpha': {
 			// Computed value (alpha multiplication) — follow alias chains to reach a concrete color
 			const baseColor = resolveToConcreteValue(expr.tokenPath, mode, tokenMap, new Set(visited));
@@ -106,13 +109,13 @@ export function resolveToken(
 			const amount = resolveAmount(expr.amount, mode, tokenMap, new Set(visited), unit);
 			return { isAlias: false, value: applyColorModify(baseColor.value, expr.fn, amount) };
 		}
-
+		
 		case 'math': {
 			// Computed value (math expression)
 			const result = evaluateMath(expr.expression, mode, tokenMap, new Set(visited));
 			return { isAlias: false, value: result };
 		}
-
+		
 		case 'concat': {
 			// Computed value (string concatenation)
 			const result = evaluateConcat(expr.parts, mode, tokenMap, new Set(visited));
@@ -128,7 +131,7 @@ export function resolveToken(
  * `visited` is mutated in place across the chain — do NOT copy it in the recursive
  * call here; copying happens at the call sites inside resolveToken's switch cases.
  */
-function resolveToConcreteValue(
+export function resolveToConcreteValue(
 	tokenPath: string,
 	mode: string,
 	tokenMap: TokenMap,
@@ -148,7 +151,7 @@ function resolveToConcreteValue(
  * is treated as a fraction equivalent to a percentage (e.g. "0.05" ≡ "5%"); for
  * degrees a bare number is used as-is, since hueShift has no percentage convention.
  */
-function resolveAmount(
+export function resolveAmount(
 	amount: AmountValue,
 	mode: string,
 	tokenMap: TokenMap,
@@ -157,6 +160,11 @@ function resolveAmount(
 ): number {
 	if (amount.kind === 'literal') {
 		return amount.amount;
+	}
+	if (amount.kind === 'expression') {
+		return evaluateAmountExpression(amount.expression, unit, tokenPath =>
+			resolveAmount({ kind: 'reference', tokenPath }, mode, tokenMap, new Set(visited), unit)
+		);
 	}
 
 	const resolved = resolveToConcreteValue(amount.tokenPath, mode, tokenMap, visited);
@@ -168,7 +176,9 @@ function resolveAmount(
 			return parseFloat(percentMatch[1]);
 		}
 		if (PLAIN_NUMBER.test(raw)) {
-			return parseFloat(raw) * DECIMAL_TO_PERCENT_SCALE;
+			return isPercentScaled(tokenMap.get(amount.tokenPath))
+				? parseFloat(raw)
+				: parseFloat(raw) * DECIMAL_TO_PERCENT_SCALE;
 		}
 		throw new Error(`Invalid amount from token reference {${amount.tokenPath}}: expected a percentage (e.g. 15%) or a decimal (e.g. 0.15), found "${raw}".`);
 	}
@@ -184,6 +194,17 @@ function resolveAmount(
 }
 
 /**
+ * True when a plain number in this token is a percentage rather than a fraction. Only the
+ * token named in the expression is checked, not the end of an alias chain behind it: the scope
+ * says how that token's own number is meant, so it is what the expression refers to.
+ */
+function isPercentScaled(token: Token | undefined): boolean {
+	const scope = token?.$scope;
+	if (scope === undefined) return false;
+	return (Array.isArray(scope) ? scope : [scope]).includes(COLOR_OPACITY_SCOPE);
+}
+
+/**
  * Apply alpha multiplication to a color
  */
 function applyAlpha(value: string | number | RGBA, alpha: number): RGBA {
@@ -191,14 +212,14 @@ function applyAlpha(value: string | number | RGBA, alpha: number): RGBA {
 		// Already an RGBA object
 		return { ...value, a: clamp01(value.a * alpha) };
 	}
-
+	
 	// Parse color string and normalise to sRGB
 	const parsed = parseColorString(String(value));
 	if (!parsed) {
 		throw new Error(`Invalid color for alpha(): ${value}`);
 	}
 	const color = toRgb(parsed);
-
+	
 	return {
 		r: clampRgbChannel(color.r),
 		g: clampRgbChannel(color.g),
@@ -283,31 +304,25 @@ function evaluateMath(
 	tokenMap: TokenMap,
 	visited: Set<string>
 ): number {
-	// Replace token references with their resolved numeric values
-	let resolved = expression;
-	const tokenRegex = /\{([^}]+)\}/g;
-	let match;
-
-	while ((match = tokenRegex.exec(expression)) !== null) {
-		const tokenPath = match[1];
+	// References are resolved before parsing, so their errors take precedence over syntax errors
+	const referenceValues = new Map<string, number>();
+	for (const tokenPath of extractTokenReferences(expression)) {
 		const tokenValue = resolveToConcreteValue(tokenPath, mode, tokenMap, new Set(visited));
 
 		if (typeof tokenValue.value !== 'number') {
 			throw new Error(`Token ${tokenPath} is not a number (found: ${typeof tokenValue.value})`);
 		}
 
-		// Replace the token reference with its numeric value
-		resolved = resolved.replace(`{${tokenPath}}`, String(tokenValue.value));
+		referenceValues.set(tokenPath, tokenValue.value);
 	}
 
-	// Evaluate the expression using Function constructor (ES2017 compatible)
 	try {
-		const result = new Function('return (' + resolved + ')')();
+		const result = evaluateArithmetic(expression, referenceValues);
 
-		if (typeof result !== 'number' || !isFinite(result)) {
+		if (!isFinite(result)) {
 			throw new Error('Result is not a finite number');
 		}
-
+		
 		return result;
 	} catch (err) {
 		throw new Error(`Math evaluation failed: ${err instanceof Error ? err.message : String(err)}`);
@@ -327,7 +342,7 @@ function evaluateConcat(
 		if (typeof part === 'string') {
 			return part;
 		}
-
+		
 		const tokenValue = resolveToConcreteValue(part.path, mode, tokenMap, new Set(visited));
 
 		return String(tokenValue.value);
@@ -345,11 +360,11 @@ export function rgbaToHex(rgba: RGBA): string {
 		b: rgba.b,
 		alpha: rgba.a
 	};
-
+	
 	if (rgba.a === 1) {
 		return formatHex(color) ?? '#000000';
 	}
-
+	
 	return formatRgb(color) ?? 'rgba(0,0,0,1)';
 }
 
@@ -362,7 +377,7 @@ export function hexToRgba(hex: string): RGBA {
 		throw new Error(`Invalid color: ${hex}`);
 	}
 	const color = toRgb(parsed);
-
+	
 	// Clamp to [0,1]: oklch colors may be out of sRGB gamut, producing values outside this range
 	return {
 		r: clampRgbChannel(color.r),

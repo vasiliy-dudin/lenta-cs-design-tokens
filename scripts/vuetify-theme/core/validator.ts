@@ -1,6 +1,8 @@
 import { TokenJSONSchema, TokenJSON, ValidationError, TokenMap, Token, ColorModifyFn } from './types';
 import { createTokenMap, detectAmbiguousAliases, extractTokenReferences, flattenTokenGroup, isExcluded } from './tokenUtils';
 import { PATTERNS } from './constants';
+import { matchAmountExpression } from './parser';
+import { amountSyntaxError } from './amountExpression';
 import { ZodIssue } from 'zod';
 
 const SCALAR_MODE_SENTINEL = '';
@@ -10,7 +12,7 @@ const SCALAR_MODE_SENTINEL = '';
  */
 export function validateSchema(json: unknown): { valid: true; data: TokenJSON } | { valid: false; errors: ValidationError[] } {
 	const result = TokenJSONSchema.safeParse(json);
-
+	
 	if (!result.success) {
 		const errors: ValidationError[] = result.error.issues.map((err: ZodIssue) => ({
 			collection: 'unknown',
@@ -18,10 +20,10 @@ export function validateSchema(json: unknown): { valid: true; data: TokenJSON } 
 			errorType: 'schema' as const,
 			message: `${err.path.join('.')}: ${err.message}`
 		}));
-
+		
 		return { valid: false, errors };
 	}
-
+	
 	return { valid: true, data: result.data };
 }
 
@@ -30,7 +32,7 @@ export function validateSchema(json: unknown): { valid: true; data: TokenJSON } 
  */
 export function detectCircularDependencies(json: TokenJSON, tokenMap: TokenMap = createTokenMap(json)): ValidationError[] {
 	const errors: ValidationError[] = [];
-
+	
 	for (const [collectionName, group] of Object.entries(json)) {
 		if (isExcluded(collectionName)) continue;
 		for (const [tokenPath, token] of flattenTokenGroup(group)) {
@@ -58,7 +60,7 @@ export function detectCircularDependencies(json: TokenJSON, tokenMap: TokenMap =
 			}
 		}
 	}
-
+	
 	return errors;
 }
 
@@ -75,22 +77,22 @@ function checkCircular(
 	if (visited.has(currentPath)) {
 		throw new CircularDependencyError(`Circular dependency: ${[...visited, currentPath].join(' → ')}`);
 	}
-
+	
 	visited.add(currentPath);
-
+	
 	// Extract token references from value
 	const references = extractTokenReferences(String(value));
-
+	
 	for (const ref of references) {
 		if (!tokenMap.has(ref)) {
 			// Covers both missing refs and ambiguous bare refs (tokenMap.has returns false for
 			// ambiguous paths). Reference/ambiguity errors are reported by their own validators.
 			continue;
 		}
-
+		
 		const referencedToken = tokenMap.get(ref);
 		if (!referencedToken) continue;
-
+		
 		const rawRef = referencedToken.$value;
 		if (typeof rawRef === 'string' || typeof rawRef === 'number') {
 			checkCircular(String(rawRef), ref, mode, tokenMap, new Set(visited));
@@ -123,7 +125,7 @@ export function validateReferences(json: TokenJSON, tokenMap: TokenMap = createT
 
 			for (const [mode, value] of modeEntries) {
 				const references = extractTokenReferences(String(value));
-
+				
 				for (const ref of references) {
 					if (tokenMap.isAmbiguous(ref)) continue;
 					if (!tokenMap.has(ref)) {
@@ -139,29 +141,29 @@ export function validateReferences(json: TokenJSON, tokenMap: TokenMap = createT
 			}
 		}
 	}
-
+	
 	return errors;
 }
 
 /**
  * Run full validation
  */
-export function validate(data: unknown):
-	| { valid: true; data: TokenJSON; errors?: never }
+export function validate(data: unknown): 
+	| { valid: true; data: TokenJSON; errors?: never } 
 	| { valid: false; errors: ValidationError[]; data?: never } {
 	// 1. Schema validation
 	const schemaResult = validateSchema(data);
 	if (!schemaResult.valid) {
 		return schemaResult;
 	}
-
+	
 	const tokenJson = schemaResult.data;
 	const tokenMap = createTokenMap(tokenJson);
 
 	// 2. Reference validation
 	const referenceErrors = validateReferences(tokenJson, tokenMap);
 	const modifierSyntaxErrors = validateModifierSyntax(tokenJson, tokenMap);
-
+	
 	// 3. Circular dependency detection
 	const circularErrors = detectCircularDependencies(tokenJson, tokenMap);
 
@@ -169,11 +171,11 @@ export function validate(data: unknown):
 	const ambiguousErrors = detectAmbiguousAliases(tokenJson);
 
 	const allErrors = [...referenceErrors, ...modifierSyntaxErrors, ...circularErrors, ...ambiguousErrors];
-
+	
 	if (allErrors.length > 0) {
 		return { valid: false, errors: allErrors };
 	}
-
+	
 	return { valid: true, data: tokenJson };
 }
 
@@ -231,9 +233,6 @@ function collectModifierSyntaxErrors(ctx: ModifierValidationContext): Validation
 
 	const alphaErrors = matchAndValidateModifier(trimmed, PATTERNS.alphaFunction, PATTERNS.alphaFunctionRef, () => 'alpha', 1, 2, refCtx);
 	if (alphaErrors) return alphaErrors;
-	if (PATTERNS.alphaFunctionPrefix.test(trimmed)) {
-		return [createSyntaxError(collectionName, tokenPath, mode, 'alpha() requires a percentage amount (alpha({token}, 15%)) or a token reference (alpha({token}, {opacityToken})).')];
-	}
 
 	const percentErrors = matchAndValidateModifier(trimmed, PATTERNS.colorPercentFunction, PATTERNS.colorPercentFunctionRef, m => m[1] as ColorModifyFn, 2, 3, refCtx);
 	if (percentErrors) return percentErrors;
@@ -241,8 +240,16 @@ function collectModifierSyntaxErrors(ctx: ModifierValidationContext): Validation
 	const hueErrors = matchAndValidateModifier(trimmed, PATTERNS.hueShiftFunction, PATTERNS.hueShiftFunctionRef, () => 'hueShift', 1, 2, refCtx);
 	if (hueErrors) return hueErrors;
 
+	// After the literal and reference forms, as in the parser: a lone {ref} is not an expression
+	const expressionErrors = validateAmountExpression(trimmed, refCtx);
+	if (expressionErrors) return expressionErrors;
+
+	if (PATTERNS.alphaFunctionPrefix.test(trimmed)) {
+		return [createSyntaxError(collectionName, tokenPath, mode, 'alpha() requires a percentage amount (alpha({token}, 15%)), a token reference (alpha({token}, {opacityToken})) or an expression (alpha({token}, {opacityToken} * 2)).')];
+	}
+
 	if (PATTERNS.colorFunctionPrefix.test(trimmed)) {
-		return [createSyntaxError(collectionName, tokenPath, mode, 'Color modifiers require percentages (10%) or degrees (30deg) depending on the function, or a token reference such as darken({token}, {amountToken}).')];
+		return [createSyntaxError(collectionName, tokenPath, mode, 'Color modifiers require percentages (10%) or degrees (30deg) depending on the function, a token reference such as darken({token}, {amountToken}), or an expression such as darken({token}, {amountToken} * 2).')];
 	}
 
 	return [];
@@ -273,6 +280,30 @@ function matchAndValidateModifier(
 	const errors = validateModifierReference({ fn, refPath: match[refPathGroup], ...ctx });
 	if (refMatch) {
 		errors.push(...validateAmountReference({ fn, amountPath: refMatch[amountGroup], ...ctx }));
+	}
+	return errors;
+}
+
+/**
+ * Validate a colour function whose amount is an expression: the base must be a colour, no
+ * reference inside the amount may be a colour, and the amount must parse with the function's
+ * unit. Returns null when the value is not such a function.
+ */
+function validateAmountExpression(
+	trimmed: string,
+	ctx: Omit<ModifierReferenceContext, 'fn' | 'refPath'>
+): ValidationError[] | null {
+	const match = matchAmountExpression(trimmed);
+	if (!match) return null;
+
+	const { fn, basePath, expression } = match;
+	const errors = validateModifierReference({ fn, refPath: basePath, ...ctx });
+	for (const amountPath of new Set(extractTokenReferences(expression))) {
+		errors.push(...validateAmountReference({ fn, amountPath, ...ctx }));
+	}
+	const syntaxError = amountSyntaxError(expression, fn === 'hueShift' ? 'degrees' : 'percent');
+	if (syntaxError) {
+		errors.push(createSyntaxError(ctx.collectionName, ctx.tokenPath, ctx.mode, `${fn}() amount "${expression}" is invalid: ${syntaxError}`));
 	}
 	return errors;
 }

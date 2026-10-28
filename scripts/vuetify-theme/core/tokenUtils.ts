@@ -1,4 +1,5 @@
 import { TokenJSON, Token, TokenGroup, TokenMap, TokenValue, ModeValues, ValidationError } from './types';
+import { nestifyFlatPathsOrdered, toTokenGroup } from './orderedTokenTree';
 
 /**
  * Type guard: returns true if value is a Token (has $type), not a nested group
@@ -41,33 +42,7 @@ export function flattenTokenGroup(group: TokenGroup, prefix: string = ''): Map<s
  * e.g. Map { "color.primary" → Token } → { color: { primary: Token } }
  */
 export function nestifyFlatPaths(flat: Map<string, Token>): TokenGroup {
-	const result: TokenGroup = {};
-	for (const [path, token] of flat) {
-		const parts = path.split('.');
-		let current = result;
-		for (let i = 0; i < parts.length; i++) {
-			const part = parts[i];
-			const isLeaf = i === parts.length - 1;
-			const existing = current[part];
-			if (isLeaf) {
-				if (!existing) {
-					current[part] = token;
-				} else if (isToken(existing)) {
-					current[part] = token;
-				} else {
-					(existing as TokenGroup).$self = token;
-				}
-			} else {
-				if (!existing) {
-					current[part] = {};
-				} else if (isToken(existing)) {
-					current[part] = { $self: existing };
-				}
-				current = current[part] as TokenGroup;
-			}
-		}
-	}
-	return result;
+	return toTokenGroup(nestifyFlatPathsOrdered(flat));
 }
 
 /**
@@ -163,7 +138,7 @@ export function createTokenMap(json: TokenJSON): TokenMap {
 export function parseTokenPath(path: string): { collection: string; tokenPath: string } | null {
 	const dotIndex = path.indexOf('.');
 	if (dotIndex === -1) return null;
-
+	
 	return {
 		collection: path.substring(0, dotIndex),
 		tokenPath: path.substring(dotIndex + 1)
@@ -175,7 +150,7 @@ export function parseTokenPath(path: string): { collection: string; tokenPath: s
  */
 export function extractModes(json: TokenJSON): Set<string> {
 	const modes = new Set<string>();
-
+	
 	for (const group of Object.values(json)) {
 		for (const token of flattenTokenGroup(group).values()) {
 			if (typeof token.$value === 'string' || typeof token.$value === 'number') continue;
@@ -184,7 +159,7 @@ export function extractModes(json: TokenJSON): Set<string> {
 			}
 		}
 	}
-
+	
 	return modes;
 }
 

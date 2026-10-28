@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ALL_SCOPE_ALIAS, COLOR_OPACITY_SCOPE, FIGMA_ALL_SCOPES } from './constants';
 
 // Token Types - extensible for future types
 export const TokenTypeSchema = z.enum([
@@ -33,11 +34,14 @@ export const TokenValueSchema = z.union([
 
 export type TokenValue = z.infer<typeof TokenValueSchema>;
 
-// All valid Figma VariableScope values — keep in sync with @figma/plugin-typings
+// All valid Figma VariableScope values — keep in sync with @figma/plugin-typings.
+// COLOR_OPACITY comes from Plugin API update 139 and is ahead of the typings (1.138.0 lacks it);
+// without it, importing a file that uses the scope would fail validation.
+// ALL_SCOPE_ALIAS is JSON-only shorthand for ALL_SCOPES; Apply translates it before writing.
 const VARIABLE_SCOPE_VALUES = [
-	'ALL_SCOPES', 'TEXT_CONTENT', 'CORNER_RADIUS', 'WIDTH_HEIGHT', 'GAP',
+	ALL_SCOPE_ALIAS, FIGMA_ALL_SCOPES, 'TEXT_CONTENT', 'CORNER_RADIUS', 'WIDTH_HEIGHT', 'GAP',
 	'ALL_FILLS', 'FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL', 'STROKE_COLOR',
-	'STROKE_FLOAT', 'EFFECT_FLOAT', 'EFFECT_COLOR', 'OPACITY',
+	'STROKE_FLOAT', 'EFFECT_FLOAT', 'EFFECT_COLOR', 'OPACITY', COLOR_OPACITY_SCOPE,
 	'FONT_FAMILY', 'FONT_STYLE', 'FONT_WEIGHT', 'FONT_SIZE',
 	'LINE_HEIGHT', 'LETTER_SPACING', 'PARAGRAPH_SPACING', 'PARAGRAPH_INDENT',
 ] as const;
@@ -74,15 +78,23 @@ export const TokenJSONSchema = z.record(z.string(), TokenGroupSchema);
 
 export type TokenJSON = z.infer<typeof TokenJSONSchema>;
 
+// Token JSON restored from storage. jsonText is the text exactly as the user saved it,
+// which json loses for integer-like keys ("100" is always listed before "base").
+export interface SavedTokens {
+	json: TokenJSON;
+	jsonText: string;
+}
+
 // Supported color modifier function names
 export type ColorModifyFn = 'darken' | 'lighten' | 'saturate' | 'desaturate' | 'hueShift';
 
-// Amount argument for alpha()/colorModify() functions — either a literal number
-// (already in the function's native scale, e.g. raw percent) or a reference to
-// another token whose resolved value supplies the amount.
+// Amount argument for alpha()/colorModify() functions — a literal number (already
+// in the function's native scale, e.g. raw percent), a reference to another token
+// whose resolved value supplies the amount, or an arithmetic expression over both.
 export type AmountValue =
 	| { kind: 'literal'; amount: number }
-	| { kind: 'reference'; tokenPath: string };
+	| { kind: 'reference'; tokenPath: string }
+	| { kind: 'expression'; expression: string };
 
 // Expression AST types
 export type Expression =
@@ -97,6 +109,21 @@ export type Expression =
 export type ResolvedValue =
 	| { isAlias: false; value: string | number | RGBA }
 	| { isAlias: true; targetPath: string; value?: never };
+
+// What an alpha() expression asks for, independent of how it gets written to Figma.
+// Used to recognise a Figma-native Composed Color that already expresses the same
+// intent, so Apply can leave it untouched instead of flattening it.
+export interface AlphaIntent {
+	targetPath: string;
+	// Percentage on a 0-100 scale, matching both alpha() syntax and Figma's storage. Unclamped.
+	percent: number;
+	// The amount token, when referencing it paints the same colour: its own Figma number equals
+	// `percent`. Null means the percentage is written as a number instead.
+	opacityTokenPath: string | null;
+	// Whether a native composed colour paints exactly what alpha() computes. Figma replaces the
+	// base's alpha while alpha() multiplies it, so only a fully opaque base qualifies.
+	eligible: boolean;
+}
 
 // Figma color type
 export interface RGBA {
@@ -117,8 +144,15 @@ export interface ValidationError {
 
 // Result type for applyToVariables
 export interface ApplyResult {
-	message: string;
 	errors: ValidationError[];
+	// How many mode values were left untouched because they already hold a composed colour
+	// matching the token over a translucent base, which Apply cannot rewrite without changing
+	// its colour. Counts mode values, not variables: a two-mode token counts twice.
+	preservedComposedColors: number;
+	// How many alpha() mode values were written as fixed colours because Figma refused the
+	// composed colour, e.g. an app version older than Plugin API update 139. Excluded bases
+	// are not counted: a fixed colour is what the user asked for there.
+	rejectedComposedColors: number;
 }
 
 // Token map for quick lookups
