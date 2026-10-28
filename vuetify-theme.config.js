@@ -18,11 +18,11 @@ export default {
 	// in `rename` below.
 	rules: [
 		{
-			prefix: 'Semantic.schemes',
+			prefix: 'Theme.schemes',
 			target: 'colors',
 		},
 		{
-			prefix: 'Semantic.vuetify-variables',
+			prefix: 'Theme.vuetify-variables',
 			target: 'variables',
 		},
 	],
@@ -62,7 +62,6 @@ export default {
 		},
 		light: {
 			colors: {
-				background: '#FFFFFF',
 				'primary-darken-1': '#5E43A3',
 				'secondary-darken-1': '#57516A',
 				'secondary-darken-2': '#5B5E72',

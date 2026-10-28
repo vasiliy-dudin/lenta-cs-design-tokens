@@ -187,6 +187,28 @@
 					"ALL"
 				]
 			},
+			"background": {
+				"$type": "color",
+				"$value": {
+					"Light": "{colors-m3.primary-95}",
+					"Dark": "{colors-m3.secondary-10}"
+				},
+				"$description": "theme.colors.background → .v-application background. Slightly blue instead of the warm neutral palette. Dark uses secondary: primary is too saturated at low tones",
+				"$scope": [
+					"ALL"
+				]
+			},
+			"on-background": {
+				"$type": "color",
+				"$value": {
+					"Light": "{colors-m3.secondary-10}",
+					"Dark": "{colors-m3.primary-90}"
+				},
+				"$description": "theme.colors.on-background → .v-application text color. Light text = dark background (secondary-10); dark text = primary-90, one tone below the light background. Contrast ≥ 13:1",
+				"$scope": [
+					"ALL"
+				]
+			},
 			"surface": {
 				"$type": "color",
 				"$value": {
@@ -632,81 +654,102 @@
 			"default": {
 				"$type": "color",
 				"$value": {
-					"Light": "alpha({schemes.default}, 12%)",
-					"Dark": "alpha({schemes.default}, 12%)"
-				}
+					"Light": "alpha({schemes.default}, {vuetify-variables.activated-opacity})",
+					"Dark": "alpha({schemes.default}, {vuetify-variables.activated-opacity})"
+				},
+				"$description": "tonal variant: .v-*__underlay = currentColor × --v-activated-opacity"
 			},
 			"primary": {
 				"$type": "color",
 				"$value": {
-					"Light": "alpha({schemes.primary}, 12%)",
-					"Dark": "alpha({schemes.primary}, 12%)"
-				}
+					"Light": "alpha({schemes.primary}, {vuetify-variables.activated-opacity})",
+					"Dark": "alpha({schemes.primary}, {vuetify-variables.activated-opacity})"
+				},
+				"$description": "tonal variant: .v-*__underlay = currentColor × --v-activated-opacity"
 			},
 			"secondary": {
 				"$type": "color",
 				"$value": {
-					"Light": "alpha({schemes.secondary}, 12%)",
-					"Dark": "alpha({schemes.secondary}, 12%)"
-				}
+					"Light": "alpha({schemes.secondary}, {vuetify-variables.activated-opacity})",
+					"Dark": "alpha({schemes.secondary}, {vuetify-variables.activated-opacity})"
+				},
+				"$description": "tonal variant: .v-*__underlay = currentColor × --v-activated-opacity"
 			},
 			"tertiary": {
 				"$type": "color",
 				"$value": {
-					"Light": "alpha({schemes.tertiary}, 12%)",
-					"Dark": "alpha({schemes.tertiary}, 12%)"
-				}
+					"Light": "alpha({schemes.tertiary}, {vuetify-variables.activated-opacity})",
+					"Dark": "alpha({schemes.tertiary}, {vuetify-variables.activated-opacity})"
+				},
+				"$description": "tonal variant: .v-*__underlay = currentColor × --v-activated-opacity"
 			},
 			"info": {
 				"$type": "color",
 				"$value": {
-					"Light": "alpha({schemes.info}, 12%)",
-					"Dark": "alpha({schemes.info}, 12%)"
-				}
+					"Light": "alpha({schemes.info}, {vuetify-variables.activated-opacity})",
+					"Dark": "alpha({schemes.info}, {vuetify-variables.activated-opacity})"
+				},
+				"$description": "tonal variant: .v-*__underlay = currentColor × --v-activated-opacity"
 			},
 			"warning": {
 				"$type": "color",
 				"$value": {
-					"Light": "alpha({schemes.warning}, 12%)",
-					"Dark": "alpha({schemes.warning}, 12%)"
-				}
+					"Light": "alpha({schemes.warning}, {vuetify-variables.activated-opacity})",
+					"Dark": "alpha({schemes.warning}, {vuetify-variables.activated-opacity})"
+				},
+				"$description": "tonal variant: .v-*__underlay = currentColor × --v-activated-opacity"
 			},
 			"error": {
 				"$type": "color",
 				"$value": {
-					"Light": "alpha({schemes.error}, 12%)",
-					"Dark": "alpha({schemes.error}, 12%)"
-				}
+					"Light": "alpha({schemes.error}, {vuetify-variables.activated-opacity})",
+					"Dark": "alpha({schemes.error}, {vuetify-variables.activated-opacity})"
+				},
+				"$description": "tonal variant: .v-*__underlay = currentColor × --v-activated-opacity"
 			},
 			"success": {
 				"$type": "color",
 				"$value": {
-					"Light": "alpha({schemes.success}, 12%)",
-					"Dark": "alpha({schemes.success}, 12%)"
-				}
+					"Light": "alpha({schemes.success}, {vuetify-variables.activated-opacity})",
+					"Dark": "alpha({schemes.success}, {vuetify-variables.activated-opacity})"
+				},
+				"$description": "tonal variant: .v-*__underlay = currentColor × --v-activated-opacity"
 			}
 		},
 		"border": {
 			"divider": {
 				"$type": "color",
 				"$value": {
-					"Light": "rgba(0, 0, 0, 0.12)",
-					"Dark": "rgba(255, 255, 255, 0.12)"
+					"Light": "alpha({vuetify-variables.border-color}, {vuetify-variables.border-opacity})",
+					"Dark": "alpha({vuetify-variables.border-color}, {vuetify-variables.border-opacity})"
 				},
 				"$scope": [
 					"ALL"
-				]
+				],
+				"$description": "rgba(var(--v-border-color), var(--v-border-opacity))"
 			}
 		},
 		"elevation": {
-			"outlined": {
+			"shadow-key": {
 				"$type": "color",
 				"$value": {
-					"Light": "#e0e0e0",
-					"Dark": "{border.divider}"
+					"Light": "alpha({vuetify-variables.shadow-color}, {vuetify-variables.shadow-key-opacity})",
+					"Dark": "alpha({vuetify-variables.shadow-color}, {vuetify-variables.shadow-key-opacity})"
 				},
+				"$description": "$shadow-key-color: rgba(var(--v-shadow-color), var(--v-shadow-key-opacity, 0.3)). Color of the 1st shadow in elevation/1–5",
 				"$scope": [
-					"ALL"
+					"EFFECT_COLOR"
+				]
+			},
+			"shadow-ambient": {
+				"$type": "color",
+				"$value": {
+					"Light": "alpha({vuetify-variables.shadow-color}, {vuetify-variables.shadow-ambient-opacity})",
+					"Dark": "alpha({vuetify-variables.shadow-color}, {vuetify-variables.shadow-ambient-opacity})"
+				},
+				"$description": "$shadow-ambient-color: rgba(var(--v-shadow-color), var(--v-shadow-ambient-opacity, 0.15)). Color of the 2nd shadow in elevation/1–5",
+				"$scope": [
+					"EFFECT_COLOR"
 				]
 			}
 		},
@@ -716,59 +759,744 @@
 				"$value": {
 					"Light": 0,
 					"Dark": 0
-				}
-			},
-			"xs": {
-				"$type": "number",
-				"$value": {
-					"Light": 4,
-					"Dark": 4
-				}
+				},
+				"$description": "rounded-0 · $rounded.0"
 			},
 			"sm": {
 				"$type": "number",
 				"$value": {
+					"Light": 2,
+					"Dark": 2
+				},
+				"$description": "rounded-sm · $rounded.sm = $border-radius-root × 0.5. md3: VChip"
+			},
+			"md": {
+				"$type": "number",
+				"$value": {
 					"Light": 4,
 					"Dark": 4
-				}
+				},
+				"$description": "rounded / rounded-md · $border-radius-root"
 			},
 			"lg": {
 				"$type": "number",
 				"$value": {
 					"Light": 8,
 					"Dark": 8
-				}
+				},
+				"$description": "rounded-lg · $border-radius-root × 2. md3: VCard"
 			},
 			"xl": {
 				"$type": "number",
 				"$value": {
 					"Light": 24,
 					"Dark": 24
-				}
+				},
+				"$description": "rounded-xl · $border-radius-root × 6. md3: VBtn"
 			},
-			"rounded": {
+			"pill": {
 				"$type": "number",
 				"$value": {
-					"Light": 500,
-					"Dark": 500
-				}
+					"Light": 9999,
+					"Dark": 9999
+				},
+				"$description": "rounded-pill · $rounded.pill = 9999px"
 			}
 		},
 		"states": {
-			"disabled": {
-				"filled": {
+			"_on-fill": {
+				"hover": {
 					"$type": "number",
 					"$value": {
-						"Light": 46,
-						"Dark": 46
-					}
+						"Light": "{vuetify-variables.hover-opacity} * 2",
+						"Dark": "{vuetify-variables.hover-opacity} * 2"
+					},
+					"$description": "hover × overlay-multiplier 2"
 				},
-				"nonfilled": {
+				"focus": {
 					"$type": "number",
 					"$value": {
-						"Light": 26,
-						"Dark": 26
-					}
+						"Light": "{vuetify-variables.focus-opacity} * 2",
+						"Dark": "{vuetify-variables.focus-opacity} * 2"
+					},
+					"$description": "focus × overlay-multiplier 2"
+				},
+				"activated": {
+					"$type": "number",
+					"$value": {
+						"Light": "{vuetify-variables.activated-opacity} * 2",
+						"Dark": "{vuetify-variables.activated-opacity} * 2"
+					},
+					"$description": "activated × overlay-multiplier 2"
+				},
+				"disabled": {
+					"$type": "number",
+					"$value": {
+						"Light": "{_vuetify-sass.button-disabled-overlay} / {_vuetify-sass.button-disabled-opacity}",
+						"Dark": "{_vuetify-sass.button-disabled-overlay} / {_vuetify-sass.button-disabled-opacity}"
+					},
+					"$description": "no multiplier"
+				}
+			},
+			"disabled": {
+				"opacity": {
+					"$type": "number",
+					"$value": {
+						"Light": "{vuetify-variables.disabled-opacity} * 100",
+						"Dark": "{vuetify-variables.disabled-opacity} * 100"
+					},
+					"$description": "Element opacity = --v-disabled-opacity: VField / inputs, checkbox, radio, switch, slider, otp, file upload, breadcrumbs",
+					"$scope": [
+						"OPACITY"
+					]
+				}
+			},
+			"default": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.default}, {vuetify-variables.hover-opacity})",
+						"Dark": "alpha({schemes.default}, {vuetify-variables.hover-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-hover-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.default}, {vuetify-variables.focus-opacity})",
+						"Dark": "alpha({schemes.default}, {vuetify-variables.focus-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-focus-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.default}, {vuetify-variables.activated-opacity})",
+						"Dark": "alpha({schemes.default}, {vuetify-variables.activated-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-activated-opacity (active / selected) × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"primary": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.primary}, {vuetify-variables.hover-opacity})",
+						"Dark": "alpha({schemes.primary}, {vuetify-variables.hover-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-hover-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.primary}, {vuetify-variables.focus-opacity})",
+						"Dark": "alpha({schemes.primary}, {vuetify-variables.focus-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-focus-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.primary}, {vuetify-variables.activated-opacity})",
+						"Dark": "alpha({schemes.primary}, {vuetify-variables.activated-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-activated-opacity (active / selected) × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"secondary": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.secondary}, {vuetify-variables.hover-opacity})",
+						"Dark": "alpha({schemes.secondary}, {vuetify-variables.hover-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-hover-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.secondary}, {vuetify-variables.focus-opacity})",
+						"Dark": "alpha({schemes.secondary}, {vuetify-variables.focus-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-focus-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.secondary}, {vuetify-variables.activated-opacity})",
+						"Dark": "alpha({schemes.secondary}, {vuetify-variables.activated-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-activated-opacity (active / selected) × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"tertiary": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.tertiary}, {vuetify-variables.hover-opacity})",
+						"Dark": "alpha({schemes.tertiary}, {vuetify-variables.hover-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-hover-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.tertiary}, {vuetify-variables.focus-opacity})",
+						"Dark": "alpha({schemes.tertiary}, {vuetify-variables.focus-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-focus-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.tertiary}, {vuetify-variables.activated-opacity})",
+						"Dark": "alpha({schemes.tertiary}, {vuetify-variables.activated-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-activated-opacity (active / selected) × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"info": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.info}, {vuetify-variables.hover-opacity})",
+						"Dark": "alpha({schemes.info}, {vuetify-variables.hover-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-hover-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.info}, {vuetify-variables.focus-opacity})",
+						"Dark": "alpha({schemes.info}, {vuetify-variables.focus-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-focus-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.info}, {vuetify-variables.activated-opacity})",
+						"Dark": "alpha({schemes.info}, {vuetify-variables.activated-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-activated-opacity (active / selected) × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"success": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.success}, {vuetify-variables.hover-opacity})",
+						"Dark": "alpha({schemes.success}, {vuetify-variables.hover-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-hover-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.success}, {vuetify-variables.focus-opacity})",
+						"Dark": "alpha({schemes.success}, {vuetify-variables.focus-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-focus-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.success}, {vuetify-variables.activated-opacity})",
+						"Dark": "alpha({schemes.success}, {vuetify-variables.activated-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-activated-opacity (active / selected) × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"warning": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.warning}, {vuetify-variables.hover-opacity})",
+						"Dark": "alpha({schemes.warning}, {vuetify-variables.hover-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-hover-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.warning}, {vuetify-variables.focus-opacity})",
+						"Dark": "alpha({schemes.warning}, {vuetify-variables.focus-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-focus-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.warning}, {vuetify-variables.activated-opacity})",
+						"Dark": "alpha({schemes.warning}, {vuetify-variables.activated-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-activated-opacity (active / selected) × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"error": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.error}, {vuetify-variables.hover-opacity})",
+						"Dark": "alpha({schemes.error}, {vuetify-variables.hover-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-hover-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.error}, {vuetify-variables.focus-opacity})",
+						"Dark": "alpha({schemes.error}, {vuetify-variables.focus-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-focus-opacity × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.error}, {vuetify-variables.activated-opacity})",
+						"Dark": "alpha({schemes.error}, {vuetify-variables.activated-opacity})"
+					},
+					"$description": "2nd fill on transparent variants (text, outlined, tonal, plain): currentColor × --v-activated-opacity (active / selected) × multiplier 1",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"on-default": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-default}, {states._on-fill.hover})",
+						"Dark": "alpha({schemes.on-default}, {states._on-fill.hover})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of default: currentColor × --v-hover-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-default}, {states._on-fill.focus})",
+						"Dark": "alpha({schemes.on-default}, {states._on-fill.focus})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of default: currentColor × --v-focus-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-default}, {states._on-fill.activated})",
+						"Dark": "alpha({schemes.on-default}, {states._on-fill.activated})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of default: currentColor × --v-activated-opacity (active / selected) × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"disabled": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-default}, {states._on-fill.disabled})",
+						"Dark": "alpha({schemes.on-default}, {states._on-fill.disabled})"
+					},
+					"$description": "2nd fill on disabled filled variants of default: currentColor × $button-disabled-overlay / $button-disabled-opacity",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"on-primary": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-primary}, {states._on-fill.hover})",
+						"Dark": "alpha({schemes.on-primary}, {states._on-fill.hover})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of primary: currentColor × --v-hover-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-primary}, {states._on-fill.focus})",
+						"Dark": "alpha({schemes.on-primary}, {states._on-fill.focus})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of primary: currentColor × --v-focus-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-primary}, {states._on-fill.activated})",
+						"Dark": "alpha({schemes.on-primary}, {states._on-fill.activated})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of primary: currentColor × --v-activated-opacity (active / selected) × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"disabled": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-primary}, {states._on-fill.disabled})",
+						"Dark": "alpha({schemes.on-primary}, {states._on-fill.disabled})"
+					},
+					"$description": "2nd fill on disabled filled variants of primary: currentColor × $button-disabled-overlay / $button-disabled-opacity",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"on-secondary": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-secondary}, {states._on-fill.hover})",
+						"Dark": "alpha({schemes.on-secondary}, {states._on-fill.hover})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of secondary: currentColor × --v-hover-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-secondary}, {states._on-fill.focus})",
+						"Dark": "alpha({schemes.on-secondary}, {states._on-fill.focus})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of secondary: currentColor × --v-focus-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-secondary}, {states._on-fill.activated})",
+						"Dark": "alpha({schemes.on-secondary}, {states._on-fill.activated})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of secondary: currentColor × --v-activated-opacity (active / selected) × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"disabled": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-secondary}, {states._on-fill.disabled})",
+						"Dark": "alpha({schemes.on-secondary}, {states._on-fill.disabled})"
+					},
+					"$description": "2nd fill on disabled filled variants of secondary: currentColor × $button-disabled-overlay / $button-disabled-opacity",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"on-tertiary": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-tertiary}, {states._on-fill.hover})",
+						"Dark": "alpha({schemes.on-tertiary}, {states._on-fill.hover})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of tertiary: currentColor × --v-hover-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-tertiary}, {states._on-fill.focus})",
+						"Dark": "alpha({schemes.on-tertiary}, {states._on-fill.focus})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of tertiary: currentColor × --v-focus-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-tertiary}, {states._on-fill.activated})",
+						"Dark": "alpha({schemes.on-tertiary}, {states._on-fill.activated})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of tertiary: currentColor × --v-activated-opacity (active / selected) × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"disabled": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-tertiary}, {states._on-fill.disabled})",
+						"Dark": "alpha({schemes.on-tertiary}, {states._on-fill.disabled})"
+					},
+					"$description": "2nd fill on disabled filled variants of tertiary: currentColor × $button-disabled-overlay / $button-disabled-opacity",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"on-info": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-info}, {states._on-fill.hover})",
+						"Dark": "alpha({schemes.on-info}, {states._on-fill.hover})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of info: currentColor × --v-hover-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-info}, {states._on-fill.focus})",
+						"Dark": "alpha({schemes.on-info}, {states._on-fill.focus})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of info: currentColor × --v-focus-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-info}, {states._on-fill.activated})",
+						"Dark": "alpha({schemes.on-info}, {states._on-fill.activated})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of info: currentColor × --v-activated-opacity (active / selected) × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"disabled": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-info}, {states._on-fill.disabled})",
+						"Dark": "alpha({schemes.on-info}, {states._on-fill.disabled})"
+					},
+					"$description": "2nd fill on disabled filled variants of info: currentColor × $button-disabled-overlay / $button-disabled-opacity",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"on-success": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-success}, {states._on-fill.hover})",
+						"Dark": "alpha({schemes.on-success}, {states._on-fill.hover})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of success: currentColor × --v-hover-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-success}, {states._on-fill.focus})",
+						"Dark": "alpha({schemes.on-success}, {states._on-fill.focus})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of success: currentColor × --v-focus-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-success}, {states._on-fill.activated})",
+						"Dark": "alpha({schemes.on-success}, {states._on-fill.activated})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of success: currentColor × --v-activated-opacity (active / selected) × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"disabled": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-success}, {states._on-fill.disabled})",
+						"Dark": "alpha({schemes.on-success}, {states._on-fill.disabled})"
+					},
+					"$description": "2nd fill on disabled filled variants of success: currentColor × $button-disabled-overlay / $button-disabled-opacity",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"on-warning": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-warning}, {states._on-fill.hover})",
+						"Dark": "alpha({schemes.on-warning}, {states._on-fill.hover})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of warning: currentColor × --v-hover-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-warning}, {states._on-fill.focus})",
+						"Dark": "alpha({schemes.on-warning}, {states._on-fill.focus})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of warning: currentColor × --v-focus-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-warning}, {states._on-fill.activated})",
+						"Dark": "alpha({schemes.on-warning}, {states._on-fill.activated})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of warning: currentColor × --v-activated-opacity (active / selected) × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"disabled": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-warning}, {states._on-fill.disabled})",
+						"Dark": "alpha({schemes.on-warning}, {states._on-fill.disabled})"
+					},
+					"$description": "2nd fill on disabled filled variants of warning: currentColor × $button-disabled-overlay / $button-disabled-opacity",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				}
+			},
+			"on-error": {
+				"hover": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-error}, {states._on-fill.hover})",
+						"Dark": "alpha({schemes.on-error}, {states._on-fill.hover})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of error: currentColor × --v-hover-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"focus": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-error}, {states._on-fill.focus})",
+						"Dark": "alpha({schemes.on-error}, {states._on-fill.focus})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of error: currentColor × --v-focus-opacity × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"activated": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-error}, {states._on-fill.activated})",
+						"Dark": "alpha({schemes.on-error}, {states._on-fill.activated})"
+					},
+					"$description": "2nd fill on filled variants (flat, elevated) of error: currentColor × --v-activated-opacity (active / selected) × multiplier 2",
+					"$scope": [
+						"ALL_FILLS"
+					]
+				},
+				"disabled": {
+					"$type": "color",
+					"$value": {
+						"Light": "alpha({schemes.on-error}, {states._on-fill.disabled})",
+						"Dark": "alpha({schemes.on-error}, {states._on-fill.disabled})"
+					},
+					"$description": "2nd fill on disabled filled variants of error: currentColor × $button-disabled-overlay / $button-disabled-opacity",
+					"$scope": [
+						"ALL_FILLS"
+					]
 				}
 			}
 		},
@@ -787,6 +1515,35 @@
 					"Light": 0.12,
 					"Dark": 0.12
 				}
+			},
+			"shadow-color": {
+				"$type": "color",
+				"$value": {
+					"Light": "{schemes.shadow}",
+					"Dark": "{schemes.shadow}"
+				},
+				"$description": "theme.variables.shadow-color → --v-shadow-color. Color of all elevation shadows",
+				"$scope": [
+					"EFFECT_COLOR"
+				]
+			},
+			"shadow-key-opacity": {
+				"$type": "number",
+				"$value": {
+					"Light": 0.3,
+					"Dark": 0.3
+				},
+				"$description": "theme.variables.shadow-key-opacity → --v-shadow-key-opacity (Vuetify fallback 0.3)",
+				"$scope": []
+			},
+			"shadow-ambient-opacity": {
+				"$type": "number",
+				"$value": {
+					"Light": 0.15,
+					"Dark": 0.15
+				},
+				"$description": "theme.variables.shadow-ambient-opacity → --v-shadow-ambient-opacity (Vuetify fallback 0.15)",
+				"$scope": []
 			},
 			"high-emphasis-opacity": {
 				"$type": "number",
@@ -885,6 +1642,33 @@
 					"Light": "#000000",
 					"Dark": "#cccccc"
 				}
+			},
+			"font-body": {
+				"$type": "string",
+				"$value": {
+					"Light": "{typography.fontFamily}, sans-serif",
+					"Dark": "{typography.fontFamily}, sans-serif"
+				},
+				"$description": "theme.variables.font-body → --v-font-body → $body-font-family. Frontend only",
+				"$scope": []
+			}
+		},
+		"_vuetify-sass": {
+			"button-disabled-opacity": {
+				"$type": "number",
+				"$value": {
+					"Light": 0.26,
+					"Dark": 0.26
+				},
+				"$description": "$button-disabled-opacity"
+			},
+			"button-disabled-overlay": {
+				"$type": "number",
+				"$value": {
+					"Light": 0.12,
+					"Dark": 0.12
+				},
+				"$description": "$button-disabled-overlay"
 			}
 		},
 		"appBar": {
@@ -1017,16 +1801,18 @@
 			"disabled-filled": {
 				"$type": "number",
 				"$value": {
-					"Light": 46.15,
-					"Dark": 46.15
-				}
+					"Light": "{_vuetify-sass.button-disabled-overlay} / {_vuetify-sass.button-disabled-opacity} * 100",
+					"Dark": "{_vuetify-sass.button-disabled-overlay} / {_vuetify-sass.button-disabled-opacity} * 100"
+				},
+				"$description": "flat/elevated disabled: .v-btn__overlay opacity = $button-disabled-overlay / $button-disabled-opacity"
 			},
 			"disabled-nonfilled": {
 				"$type": "number",
 				"$value": {
-					"Light": 26,
-					"Dark": 26
-				}
+					"Light": "{_vuetify-sass.button-disabled-opacity} * 100",
+					"Dark": "{_vuetify-sass.button-disabled-opacity} * 100"
+				},
+				"$description": "non-filled disabled: element opacity = $button-disabled-opacity. Also VIconBtn, VHotkey"
 			}
 		},
 		"chips": {
@@ -1298,7 +2084,7 @@
 					"ALL"
 				]
 			},
-			"knowFillDisabled": {
+			"knobFillDisabled": {
 				"$type": "color",
 				"$value": {
 					"Light": "{colors-m2.grey.100}",
