@@ -53,33 +53,27 @@
 		"breakpoints": {
 			"xxl": {
 				"$type": "number",
-				"$value": 2138,
-				"$description": "display.thresholds.xxl"
+				"$value": 2138
 			},
 			"xl": {
 				"$type": "number",
-				"$value": 1545,
-				"$description": "display.thresholds.xl"
+				"$value": 1545
 			},
 			"lg": {
 				"$type": "number",
-				"$value": 1145,
-				"$description": "display.thresholds.lg"
+				"$value": 1145
 			},
 			"md": {
 				"$type": "number",
-				"$value": 840,
-				"$description": "display.thresholds.md"
+				"$value": 840
 			},
 			"sm": {
 				"$type": "number",
-				"$value": 600,
-				"$description": "display.thresholds.sm"
+				"$value": 600
 			},
 			"xs": {
 				"$type": "number",
-				"$value": 444,
-				"$description": "Mobile frame width. Vuetify xs = 0–599px"
+				"$value": 444
 			}
 		},
 		"typography": {
@@ -91,79 +85,66 @@
 				"xs": {
 					"$type": "number",
 					"$value": 10,
-					"$description": "0.625rem / 10px",
 					"$scope": "FONT_SIZE"
 				},
 				"sm": {
 					"$type": "number",
 					"$value": 12,
-					"$description": "0.75rem / 12px",
 					"$scope": "FONT_SIZE"
 				},
 				"md": {
 					"$type": "number",
 					"$value": 14,
-					"$description": "0.875rem / 14px",
 					"$scope": "FONT_SIZE"
 				},
 				"base": {
 					"$type": "number",
 					"$value": 16,
-					"$description": "1rem / 16px",
 					"$scope": "FONT_SIZE"
 				},
 				"lg": {
 					"$type": "number",
 					"$value": 18,
-					"$description": "1,125rem / 18px",
 					"$scope": "FONT_SIZE"
 				},
 				"xl": {
 					"$type": "number",
 					"$value": 20,
-					"$description": "1.25rem / 20px",
 					"$scope": "FONT_SIZE"
 				},
 				"2xl": {
 					"$type": "number",
 					"$value": 24,
-					"$description": "1.5rem / 24px",
 					"$scope": "FONT_SIZE"
 				},
 				"3xl": {
 					"$type": "number",
 					"$value": 32,
-					"$description": "2rem / 32px",
 					"$scope": "FONT_SIZE"
 				},
 				"4xl": {
 					"$type": "number",
 					"$value": 40,
-					"$description": "2.5rem / 40px",
 					"$scope": "FONT_SIZE"
 				},
 				"5xl": {
 					"$type": "number",
 					"$value": 48,
-					"$description": "3rem / 48px",
 					"$scope": "FONT_SIZE"
 				},
 				"6xl": {
 					"$type": "number",
 					"$value": 64,
-					"$description": "4rem / 64px",
 					"$scope": "FONT_SIZE"
 				},
 				"7xl": {
 					"$type": "number",
 					"$value": 72,
-					"$description": "4.5rem / 72px",
 					"$scope": "FONT_SIZE"
 				},
 				"8xl": {
 					"$type": "number",
 					"$value": 96,
-					"$description": "6rem / 96px",
 					"$scope": "FONT_SIZE"
 				}
 			},
@@ -246,25 +227,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 57,
-						"$description": "3.5625rem / 57px · $typography.display-large.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Regular}",
-						"$description": "$typography.display-large.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 64,
-						"$description": "1.123 × size · $typography.display-large.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": -0.25,
-						"$description": "-0.004em · $typography.display-large.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -272,25 +249,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 45,
-						"$description": "2.8125rem / 45px · $typography.display-medium.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Regular}",
-						"$description": "$typography.display-medium.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 52,
-						"$description": "1.156 × size · $typography.display-medium.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0,
-						"$description": "0em · $typography.display-medium.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -298,25 +271,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 36,
-						"$description": "2.25rem / 36px · $typography.display-small.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Regular}",
-						"$description": "$typography.display-small.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 44,
-						"$description": "1.222 × size · $typography.display-small.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0,
-						"$description": "0em · $typography.display-small.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -324,25 +293,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 32,
-						"$description": "2rem / 32px · $typography.headline-large.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Regular}",
-						"$description": "$typography.headline-large.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 40,
-						"$description": "1.25 × size · $typography.headline-large.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0,
-						"$description": "0em · $typography.headline-large.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -350,25 +315,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 28,
-						"$description": "1.75rem / 28px · $typography.headline-medium.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Regular}",
-						"$description": "$typography.headline-medium.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 36,
-						"$description": "1.286 × size · $typography.headline-medium.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0,
-						"$description": "0em · $typography.headline-medium.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -376,25 +337,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 24,
-						"$description": "1.5rem / 24px · $typography.headline-small.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Regular}",
-						"$description": "$typography.headline-small.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 32,
-						"$description": "1.333 × size · $typography.headline-small.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0,
-						"$description": "0em · $typography.headline-small.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -402,25 +359,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 22,
-						"$description": "1.375rem / 22px · $typography.title-large.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Regular}",
-						"$description": "$typography.title-large.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 28,
-						"$description": "1.273 × size · $typography.title-large.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0,
-						"$description": "0em · $typography.title-large.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -428,25 +381,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 16,
-						"$description": "1rem / 16px · $typography.title-medium.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Medium}",
-						"$description": "$typography.title-medium.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 24,
-						"$description": "1.5 × size · $typography.title-medium.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0.15,
-						"$description": "0.009em · $typography.title-medium.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -454,25 +403,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 14,
-						"$description": "0.875rem / 14px · $typography.title-small.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Medium}",
-						"$description": "$typography.title-small.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 20,
-						"$description": "1.429 × size · $typography.title-small.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0.1,
-						"$description": "0.007em · $typography.title-small.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -480,25 +425,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 16,
-						"$description": "1rem / 16px · $typography.body-large.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Regular}",
-						"$description": "$typography.body-large.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 24,
-						"$description": "1.5 × size · $typography.body-large.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0.5,
-						"$description": "0.031em · $typography.body-large.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -506,25 +447,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 14,
-						"$description": "0.875rem / 14px · $typography.body-medium.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Regular}",
-						"$description": "$typography.body-medium.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 20,
-						"$description": "1.429 × size · $typography.body-medium.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0.25,
-						"$description": "0.018em · $typography.body-medium.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -532,25 +469,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 12,
-						"$description": "0.75rem / 12px · $typography.body-small.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Regular}",
-						"$description": "$typography.body-small.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 16,
-						"$description": "1.333 × size · $typography.body-small.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0.4,
-						"$description": "0.033em · $typography.body-small.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -558,25 +491,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 14,
-						"$description": "0.875rem / 14px · $typography.label-large.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Medium}",
-						"$description": "$typography.label-large.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 20,
-						"$description": "1.429 × size · $typography.label-large.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0.1,
-						"$description": "0.007em · $typography.label-large.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -584,25 +513,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 12,
-						"$description": "0.75rem / 12px · $typography.label-medium.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Medium}",
-						"$description": "$typography.label-medium.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 16,
-						"$description": "1.333 × size · $typography.label-medium.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0.5,
-						"$description": "0.042em · $typography.label-medium.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				},
@@ -610,25 +535,21 @@
 					"size": {
 						"$type": "number",
 						"$value": 11,
-						"$description": "0.6875rem / 11px · $typography.label-small.size",
 						"$scope": "FONT_SIZE"
 					},
 					"weight": {
 						"$type": "number",
 						"$value": "{typography.fontWeight.Medium}",
-						"$description": "$typography.label-small.weight",
 						"$scope": "FONT_WEIGHT"
 					},
 					"line-height": {
 						"$type": "number",
 						"$value": 16,
-						"$description": "1.455 × size · $typography.label-small.line-height",
 						"$scope": "LINE_HEIGHT"
 					},
 					"letter-spacing": {
 						"$type": "number",
 						"$value": 0.5,
-						"$description": "0.045em · $typography.label-small.letter-spacing",
 						"$scope": "LETTER_SPACING"
 					}
 				}
