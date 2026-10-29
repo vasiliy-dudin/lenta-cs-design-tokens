@@ -7,9 +7,9 @@
 # group lands where the earliest file first defines it, so the prefixes set where the roles and palettes appear.
 output:
   # Theme.schemes roles; first file, so schemes is the first Theme group
-  schemes: ./src/1-schemes-m3.json
+  schemes: ./src/1-schemes-m3.generated.json
   # Basic.colors-m3 palettes; after 4-basic.json, before 6-colors-m2.json
-  palettes: ./src/5-colors-m3.json
+  palettes: ./src/5-colors-m3.generated.json
 
 # Source color of the scheme: primary's hue comes from it, and every core palette not set in
 # coreColors is derived from it by the variant's rules.

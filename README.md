@@ -5,11 +5,11 @@ Design tokens for the Lenta Omni Support Admin design system, shared between Fig
 ## Structure
 
 - `src/` — token source files, merged in numeric-prefix order:
-  - `1-schemes-m3.json` — M3 roles of `Theme.schemes` (generated)
+  - `1-schemes-m3.generated.json` — M3 roles of `Theme.schemes` (generated)
   - `2-schemes-custom.json` — hand-written roles that the generator doesn't produce (`background`, `on-background`)
   - `3-semantic.json` — the rest of `Theme`
   - `4-basic.json` — `Basic`: spacing, breakpoints, typography
-  - `5-colors-m3.json` — M3 tonal palettes `Basic.colors-m3` (generated)
+  - `5-colors-m3.generated.json` — M3 tonal palettes `Basic.colors-m3` (generated)
   - `6-colors-m2.json` — Material 2 palettes `Basic.colors-m2`
 - `m3-palette.config.yaml` — settings of the Material 3 palette generator (see below)
 - `dist/` — generated, committed output: `tokens.json` (source of truth) and `vuetify-theme.js` (Vuetify 3 theme)
@@ -27,13 +27,13 @@ npm run build
 `build` runs three steps, also available on their own:
 
 ```bash
-npm run _build-m3       # m3-palette.config.yaml → src/1-schemes-m3.json, src/5-colors-m3.json
+npm run _build-m3       # m3-palette.config.yaml → src/1-schemes-m3.generated.json, src/5-colors-m3.generated.json
 npm run _merge-tokens   # src/*.json → dist/tokens.json
 npm run _build-theme    # dist/tokens.json → dist/vuetify-theme.js
 ```
 
 Don't edit files in `dist/` directly — edit the matching file in `src/` and run `npm run build`.
-Don't edit the generated `src/1-schemes-m3.json` and `src/5-colors-m3.json` either — change `m3-palette.config.yaml`.
+Don't edit the generated `src/1-schemes-m3.generated.json` and `src/5-colors-m3.generated.json` either — change `m3-palette.config.yaml`.
 
 ## M3 palette generator
 
