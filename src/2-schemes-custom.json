@@ -1,0 +1,28 @@
+{
+	"Theme": {
+		"schemes": {
+			"background": {
+				"$type": "color",
+				"$value": {
+					"Light": "{colors-m3.primary-95}",
+					"Dark": "{colors-m3.secondary-5}"
+				},
+				"$description": "theme.colors.background → .v-application background. Slightly blue instead of the warm neutral palette. Dark uses secondary-5, the darkest tinted palette tone: still a bit lighter than the Dark surface (only tone 0, pure black, is darker). Dark uses secondary: primary is too saturated at low tones",
+				"$scope": [
+					"ALL"
+				]
+			},
+			"on-background": {
+				"$type": "color",
+				"$value": {
+					"Light": "{colors-m3.secondary-10}",
+					"Dark": "{colors-m3.secondary-90}"
+				},
+				"$description": "theme.colors.on-background → .v-application text color. Both modes take text from the calm secondary palette in the background's hue: secondary-10 in Light, secondary-90 in Dark (primary is too saturated for long text). Contrast ≥ 15:1",
+				"$scope": [
+					"ALL"
+				]
+			}
+		}
+	}
+}

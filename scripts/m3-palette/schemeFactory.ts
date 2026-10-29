@@ -18,6 +18,8 @@ export interface GeneratedScheme {
 	rolePalettes: Map<string, string>;
 	// Palette → the color it was generated from, used as the hue reference by preserveHue
 	sourceColors: Map<string, string>;
+	// Extended color names in config order; palette-sourced ones have roles but no palette of their own
+	extendedColorNames: string[];
 }
 
 interface SchemeSettings {

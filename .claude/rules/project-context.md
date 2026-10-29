@@ -15,11 +15,11 @@ This repo holds no application code of its own — it holds token data plus a co
 ```
 m3-palette.config.yaml            (Material 3 palette generator settings)
         │
-        ▼  scripts/m3-palette/ (npm run build-m3)
+        ▼  scripts/m3-palette/ (npm run _build-m3)
         ▼
-src/5-m3-generated.json           (generated — Basic.colors-m3 + the M3 roles in Theme.schemes)
+src/1-schemes-m3.json, src/5-colors-m3.json   (generated — M3 roles in Theme.schemes, palettes in Basic.colors-m3)
         +
-src/<N>-<name>.json              (hand-edited sources, merged in numeric-prefix order)
+src/<N>-<name>.json              (hand-edited sources; all src/*.json merge in numeric-prefix order)
         │
         ▼  scripts/merge-tokens.js (deep merge, plain Node, no deps)
         ▼
@@ -35,8 +35,9 @@ dist/vuetify-theme.json (alternate path: resolves dist/tokens.json directly, wit
 ```
 
 - `dist/tokens.json` is a **build artifact**. Never hand-edit it without also updating the matching file in `src/`, or the next merge run will silently overwrite your change.
-- Run `npm run merge-tokens` after editing any `src/*.json` file to regenerate `dist/tokens.json`; `npm run build` runs the whole chain (`build-m3` → `merge-tokens` → `build-theme`).
-- M3 palettes and M3 roles come from the generator; custom roles (`default`, `info`, `background` and their `on-*`/`*-container`) stay in `src/1-semantic.json` and alias palette tones. Deep merge puts the generated roles after those custom ones in `Theme.schemes`, and `colors-m3` at the end of `Basic`.
+- Run `npm run build` after editing any `src/*.json` file or the generator config; it runs the whole chain (`_build-m3` → `_merge-tokens` → `_build-theme`). The `_`-prefixed scripts are the individual steps.
+- **File numbering sets group order.** Deep merge places a group where the earliest file first defines it, so the `src/` layout is deliberate: `1-schemes-m3` (generated roles, making `schemes` the first `Theme` group) → `2-schemes-custom` (`background`, `on-background`) → `3-semantic` (rest of `Theme`) → `4-basic` (spacing, breakpoints, typography) → `5-colors-m3` (generated palettes) → `6-colors-m2`. Keep this in mind when adding or renumbering files.
+- M3 palettes and roles come from the generator, including the extended `default` (borrows the `neutral` palette), `info`, `success`, `warning`. Only `background`/`on-background` are hand-written aliases to palette tones.
 - Dark `background` is `{colors-m3.secondary-5}`, slightly lighter than the Dark `surface` (~tone 4 in SPEC_2025): no tinted palette tone is darker, and darkening it with `darken()` was rejected — accepted as is for now.
 - "Collections" = top-level keys in the JSON (e.g. `"Semantic"`, `"Components/Colors"`). They map 1:1 to Figma Variable Collections.
 
@@ -54,9 +55,9 @@ dist/vuetify-theme.json (alternate path: resolves dist/tokens.json directly, wit
 
 ## What NOT to Touch Without Asking
 
-- `dist/tokens.json` — it's generated; edit the corresponding `src/*.json` instead and re-run `npm run merge-tokens`.
+- `dist/tokens.json` — it's generated; edit the corresponding `src/*.json` instead and re-run `npm run build`.
 - Top-level collection names (e.g. renaming `"Semantic"`) — bare-path aliases resolve across the entire merged tree, so a rename can silently break references in other collections/files.
-- `src/5-m3-generated.json` — it's generated; change `m3-palette.config.yaml` and re-run `npm run build`.
+- `src/1-schemes-m3.json`, `src/5-colors-m3.json` — generated; change `m3-palette.config.yaml` and re-run `npm run build`.
 - `scripts/m3-palette/roleOrder.ts` — the role order template must list exactly the roles the generator emits; adding or removing a role elsewhere without updating it fails the build on purpose.
 - `scripts/merge-tokens.js` — small and load-bearing; changing its merge semantics changes how every `src/*.json` file combines.
 - Anything under `scripts/vuetify-theme/core/` — this is a copied snapshot of the resolver logic from the external plugin (see below), kept in sync manually. Don't "fix" it locally without checking the upstream plugin first, or the two will drift apart silently.

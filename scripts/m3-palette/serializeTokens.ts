@@ -1,6 +1,6 @@
 import { ALL_SCOPE_ALIAS } from '../vuetify-theme/core/constants';
 import { Token, TokenGroup, TokenJSON } from '../vuetify-theme/core/types';
-import { CORE_PALETTES, TONES } from './materialConstants';
+import { TONES } from './materialConstants';
 import { orderRoleNames } from './roleOrder';
 import { GeneratedScheme } from './schemeFactory';
 
@@ -24,14 +24,9 @@ function colorToken(value: Token['$value']): Token {
 	return { $type: COLOR_TOKEN_TYPE, $value: value, $scope: [ALL_SCOPE_ALIAS] };
 }
 
-function extendedPaletteNames(scheme: GeneratedScheme): string[] {
-	const corePaletteNames = new Set<string>(CORE_PALETTES.map(palette => palette.name));
-	return [...scheme.palettes.keys()].filter(name => !corePaletteNames.has(name));
-}
-
 function serializeRoles(scheme: GeneratedScheme): TokenGroup {
 	const group: TokenGroup = {};
-	for (const role of orderRoleNames([...scheme.roles.Light.keys()], extendedPaletteNames(scheme))) {
+	for (const role of orderRoleNames([...scheme.roles.Light.keys()], scheme.extendedColorNames)) {
 		const lightHex = scheme.roles.Light.get(role);
 		const darkHex = scheme.roles.Dark.get(role);
 		if (lightHex === undefined || darkHex === undefined) {
@@ -56,12 +51,18 @@ function serializePalettes(scheme: GeneratedScheme): TokenGroup {
 	return group;
 }
 
+// Roles and palettes go to separate source files so their merge position can be set by file numbering
+export interface GeneratedTokenFiles {
+	schemes: TokenJSON;
+	palettes: TokenJSON;
+}
+
 /**
  * Converts the generated scheme into token JSON: roles under Theme.schemes, palettes under Basic.colors-m3.
  */
-export function serializeTokens(scheme: GeneratedScheme): TokenJSON {
+export function serializeTokens(scheme: GeneratedScheme): GeneratedTokenFiles {
 	return {
-		[ROLES_COLLECTION]: { [ROLES_GROUP]: serializeRoles(scheme) },
-		[PALETTES_COLLECTION]: { [PALETTES_GROUP]: serializePalettes(scheme) },
+		schemes: { [ROLES_COLLECTION]: { [ROLES_GROUP]: serializeRoles(scheme) } },
+		palettes: { [PALETTES_COLLECTION]: { [PALETTES_GROUP]: serializePalettes(scheme) } },
 	};
 }

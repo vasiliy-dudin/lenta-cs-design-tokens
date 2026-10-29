@@ -25,7 +25,7 @@ function formatIssues(issues: z.core.$ZodIssue[]): string {
 }
 
 /**
- * Reads and validates the YAML palette config; returns it with `output` resolved against the config's directory.
+ * Reads and validates the YAML palette config; returns it with the `output` paths resolved against the config's directory.
  */
 export function loadConfig(configPath: string): M3PaletteConfig {
 	const raw = load(readFileSync(configPath, 'utf-8'));
@@ -35,5 +35,10 @@ export function loadConfig(configPath: string): M3PaletteConfig {
 		throw new Error(`Invalid config ${configPath}:\n${formatIssues(result.error.issues)}`);
 	}
 
-	return { ...result.data, output: resolve(dirname(configPath), result.data.output) };
+	const configDir = dirname(configPath);
+	const output = {
+		schemes: resolve(configDir, result.data.output.schemes),
+		palettes: resolve(configDir, result.data.output.palettes),
+	};
+	return { ...result.data, output };
 }

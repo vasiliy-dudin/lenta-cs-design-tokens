@@ -1,6 +1,6 @@
 import { writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
-import { ValidationError } from '../vuetify-theme/core/types';
+import { TokenJSON, ValidationError } from '../vuetify-theme/core/types';
 import { validate } from '../vuetify-theme/core/validator';
 import { generateScheme } from './generateScheme';
 import { loadConfig } from './loadConfig';
@@ -18,6 +18,15 @@ function formatValidationErrors(errors: ValidationError[]): string {
 		.join('\n');
 }
 
+function writeValidatedTokens(tokens: TokenJSON, path: string): void {
+	const validation = validate(tokens);
+	if (!validation.valid) {
+		throw new Error(`Generated tokens for ${path} failed validation:\n${formatValidationErrors(validation.errors)}`);
+	}
+	writeFileSync(path, JSON.stringify(tokens, null, JSON_INDENT));
+	console.log(`Wrote M3 palette tokens to ${path}`);
+}
+
 function main(): void {
 	try {
 		const config = loadConfig(CONFIG_PATH);
@@ -26,13 +35,8 @@ function main(): void {
 		const hueLocked = shouldPreserveHue ? preserveHue(generated, { neutralHueFromPrimary }) : generated;
 		const tokens = serializeTokens(applyOklchRules(hueLocked, config.postProcess));
 
-		const validation = validate(tokens);
-		if (!validation.valid) {
-			throw new Error(`Generated tokens failed validation:\n${formatValidationErrors(validation.errors)}`);
-		}
-
-		writeFileSync(config.output, JSON.stringify(tokens, null, JSON_INDENT));
-		console.log(`Wrote M3 palette tokens to ${config.output}`);
+		writeValidatedTokens(tokens.schemes, config.output.schemes);
+		writeValidatedTokens(tokens.palettes, config.output.palettes);
 	} catch (err) {
 		console.error(`M3 palette generation failed: ${err instanceof Error ? err.message : String(err)}`);
 		process.exit(1);

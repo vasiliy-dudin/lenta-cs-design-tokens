@@ -31,11 +31,40 @@ const CoreColorsSchema = z.strictObject({
 const EXTENDED_COLOR_NAME_PATTERN = /^[a-z][a-z0-9-]*$/;
 const CORE_PALETTE_NAMES: readonly string[] = Object.keys(CoreColorsSchema.shape);
 
-const ExtendedColorSchema = z.strictObject({
+const DEFAULT_HARMONIZE = true;
+
+export type ExtendedColor =
+	| { source: 'color'; name: string; color: string; harmonize: boolean }
+	| { source: 'palette'; name: string; palette: keyof CoreColors };
+
+const ExtendedColorInputSchema = z.strictObject({
 	name: z.string().regex(EXTENDED_COLOR_NAME_PATTERN, 'expected a kebab-case name like "warning"'),
-	color: HexColorSchema,
-	harmonize: z.boolean().default(true),
+	color: HexColorSchema.optional(),
+	palette: CoreColorsSchema.keyof().optional(),
+	harmonize: z.boolean().optional(),
 });
+
+// An extended color is either a new palette from `color` or roles drawn from an existing core `palette`
+function toExtendedColor(entry: z.infer<typeof ExtendedColorInputSchema>, ctx: z.RefinementCtx): ExtendedColor {
+	if (entry.color !== undefined && entry.palette !== undefined) {
+		ctx.addIssue({ code: 'custom', message: 'set either color or palette, not both' });
+		return z.NEVER;
+	}
+	if (entry.palette !== undefined) {
+		if (entry.harmonize !== undefined) {
+			ctx.addIssue({ code: 'custom', path: ['harmonize'], message: 'only applies to color, not to palette' });
+			return z.NEVER;
+		}
+		return { source: 'palette', name: entry.name, palette: entry.palette };
+	}
+	if (entry.color === undefined) {
+		ctx.addIssue({ code: 'custom', message: 'set color (a new palette) or palette (an existing core palette)' });
+		return z.NEVER;
+	}
+	return { source: 'color', name: entry.name, color: entry.color, harmonize: entry.harmonize ?? DEFAULT_HARMONIZE };
+}
+
+const ExtendedColorSchema = ExtendedColorInputSchema.transform(toExtendedColor);
 
 // Extended names become palette and role keys next to the core ones, so a clash would silently overwrite tokens
 const ExtendedColorsSchema = z.array(ExtendedColorSchema).superRefine((colors, ctx) => {
@@ -95,7 +124,10 @@ const PostProcessSchema = z
 	});
 
 export const M3PaletteConfigSchema = z.strictObject({
-	output: z.string().min(1),
+	output: z.strictObject({
+		schemes: z.string().min(1),
+		palettes: z.string().min(1),
+	}),
 	seed: HexColorSchema,
 	variant: z.enum(VARIANT_NAMES),
 	spec: z.enum(SPEC_NAMES),
@@ -112,6 +144,5 @@ export const M3PaletteConfigSchema = z.strictObject({
 
 export type M3PaletteConfig = z.infer<typeof M3PaletteConfigSchema>;
 export type CoreColors = z.infer<typeof CoreColorsSchema>;
-export type ExtendedColor = z.infer<typeof ExtendedColorSchema>;
 export type OklchRule = z.infer<typeof OklchRuleSchema>;
 export type ModeName = typeof MODE_NAMES[number];

@@ -1,10 +1,15 @@
-# Material 3 palette generator config (npm run build-m3).
+# Material 3 palette generator config (npm run build, or npm run _build-m3 for this step alone).
 # Reproduces the tokens previously made in better-material-theme-builder (generator settings below,
 # palette tones within ΔE 0.18 of its export on average; OKLab × 100, ~2 is the smallest visible
 # difference) and then edited in lenta-bulk-colors-editor (its config.yaml, ported to postProcess rules).
 
-# Generated token file, relative to this config. merge-tokens picks it up by its numeric prefix.
-output: ./src/5-m3-generated.json
+# Generated token files, relative to this config. merge-tokens merges src/*.json by numeric prefix, and a
+# group lands where the earliest file first defines it, so the prefixes set where the roles and palettes appear.
+output:
+  # Theme.schemes roles; first file, so schemes is the first Theme group
+  schemes: ./src/1-schemes-m3.json
+  # Basic.colors-m3 palettes; after 4-basic.json, before 6-colors-m2.json
+  palettes: ./src/5-colors-m3.json
 
 # Source color of the scheme: primary's hue comes from it, and every core palette not set in
 # coreColors is derived from it by the variant's rules.
@@ -20,17 +25,27 @@ spec: SPEC_2025
 # neutral | neutral-variant; omitted ones are derived from the seed.
 coreColors: {}
 
-# Extra palettes with their own roles (<name>, on-<name>, <name>-container, on-<name>-container).
-#   name: kebab-case; becomes the palette prefix (<name>-40) and the role names; must not repeat a core palette.
-#   color: source color; the palette keeps its hue and chroma.
-#   harmonize (default true): nudges the hue towards the seed.
+# Extra colors with their own roles (<name>, on-<name>, <name>-container, on-<name>-container).
+#   name: kebab-case; becomes the role names (and the palette prefix, <name>-40); must not repeat a core palette.
+# Each one takes its tones from exactly one source:
+#   color: source color of a new palette; the palette keeps its hue and chroma.
+#     harmonize (default true): nudges the hue towards the seed.
+#   palette: an existing core palette (primary | secondary | tertiary | error | neutral | neutral-variant);
+#     no new palette is emitted, the roles are tones of that palette.
 # Palettes and roles follow this order in the output.
 extendedColors:
-  - name: warning
-    color: "#ad6800"
+  # Vuetify's neutral "default" color
+  - name: default
+    palette: neutral
+  # Cerulean blue for informational elements, kept apart from the violet-blue primary
+  - name: info
+    color: "#0091c2"
     harmonize: false
   - name: success
     color: "#4e825a"
+    harmonize: false
+  - name: warning
+    color: "#ad6800"
     harmonize: false
 
 # Spec for the extended color roles; the palettes themselves don't depend on it.
@@ -70,8 +85,8 @@ postProcess:
     # Calmer light secondary tones
     "secondary-90, secondary-95":
       chromaScale: 0.5
-    # Warm neutrals (not neutral-variant)
-    "neutral-, surface, on-surface":
+    # Warm neutrals (not neutral-variant), including default, whose roles are neutral tones
+    "neutral-, surface, on-surface, default, on-default":
       hue: 55
     # Almost grey surfaces and neutral-variant
     "surface, on-surface":

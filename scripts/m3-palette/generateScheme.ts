@@ -42,7 +42,8 @@ function collectSourceColors(config: M3PaletteConfig, scheme: DynamicScheme): Ma
 export function generateScheme(config: M3PaletteConfig): GeneratedScheme {
 	const lightScheme = DynamicScheme.from(createSchemeOptions(config, false));
 	const darkScheme = DynamicScheme.from(createSchemeOptions(config, true));
-	const extended = generateExtendedColors(config);
+	// Core palettes are the same in both modes, so the light scheme serves as their source
+	const extended = generateExtendedColors(config, lightScheme);
 
 	return {
 		palettes: new Map([...extractPalettes(lightScheme), ...extended.palettes]),
@@ -52,5 +53,6 @@ export function generateScheme(config: M3PaletteConfig): GeneratedScheme {
 		},
 		rolePalettes: new Map([...collectRolePalettes(), ...extended.rolePalettes]),
 		sourceColors: new Map([...collectSourceColors(config, lightScheme), ...extended.sourceColors]),
+		extendedColorNames: extended.extendedColorNames,
 	};
 }
