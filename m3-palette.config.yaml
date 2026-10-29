@@ -1,0 +1,81 @@
+# Material 3 palette generator config (npm run build-m3).
+# Reproduces the tokens previously made in better-material-theme-builder (generator settings below,
+# palette tones within ΔE 0.18 of its export on average; OKLab × 100, ~2 is the smallest visible
+# difference) and then edited in lenta-bulk-colors-editor (its config.yaml, ported to postProcess rules).
+
+# Generated token file, relative to this config. merge-tokens picks it up by its numeric prefix.
+output: ./src/5-m3-generated.json
+
+# Source color of the scheme: primary's hue comes from it, and every core palette not set in
+# coreColors is derived from it by the variant's rules.
+seed: "#6c74a5"
+
+# TONAL_SPOT | VIBRANT | EXPRESSIVE | NEUTRAL | MONOCHROME | FIDELITY | CONTENT | RAINBOW | FRUIT_SALAD
+variant: TONAL_SPOT
+
+# SPEC_2021 | SPEC_2025
+spec: SPEC_2025
+
+# Optional overrides for individual core palettes, keyed by primary | secondary | tertiary | error |
+# neutral | neutral-variant; omitted ones are derived from the seed.
+coreColors: {}
+
+# Extra palettes with their own roles (<name>, on-<name>, <name>-container, on-<name>-container).
+#   name: kebab-case; becomes the palette prefix (<name>-40) and the role names; must not repeat a core palette.
+#   color: source color; the palette keeps its hue and chroma.
+#   harmonize (default true): nudges the hue towards the seed.
+# Palettes and roles follow this order in the output.
+extendedColors:
+  - name: warning
+    color: "#ad6800"
+    harmonize: false
+  - name: success
+    color: "#4e825a"
+    harmonize: false
+
+# Spec for the extended color roles; the palettes themselves don't depend on it.
+#   SPEC_2021 (default): classic tones — light container in Light mode, dark container in Dark mode.
+#   SPEC_2025: same rules as the core roles, but a saturated color can get a mid-tone container
+#              whose on-container text turns black in Dark mode (e.g. warning).
+extendedRoleSpec: SPEC_2021
+
+# Color post-processing, in this order: preserveHue → OKLCH rules → back into sRGB.
+postProcess:
+  # Prevent hue shifting: lock every palette to its source color's OKLCH hue
+  preserveHue: true
+  # Use primary's hue for neutral and neutral-variant; requires preserveHue
+  neutralHueFromPrimary: true
+
+  # OKLCH rules by token name, applied after preserveHue. Every matching rule runs in turn on the result
+  # of the previous one: first `groups` in declaration order, then `colors` (exact token name).
+  # Group patterns: "primary" matches primary and primary-*; "neutral-" matches neutral-<tone> only.
+  # Several patterns per key: "primary, secondary" or "primary | secondary".
+  # Parameters: hue | hueShift, chroma | chromaScale, lightness | lightnessScale | lightnessShift,
+  # modes: [Light] / [Dark] to limit a rule to one mode.
+  groups:
+    # Blue hue for primary and the bluish-grey neutral-variant
+    "primary, on-primary, neutral-variant":
+      hue: 270
+    # Much more saturated primary than TONAL_SPOT gives
+    "primary, on-primary":
+      chromaScale: 3
+    # Pinkish red for every error color
+    "error, error-, on-error":
+      hue: 13
+      chromaScale: 1.1
+    # Saturated orange warning, shifted from yellow towards red
+    "warning, on-warning":
+      chromaScale: 3
+      hueShift: -20
+    # Calmer light secondary tones
+    "secondary-90, secondary-95":
+      chromaScale: 0.5
+    # Warm neutrals (not neutral-variant)
+    "neutral-, surface, on-surface":
+      hue: 55
+    # Almost grey surfaces and neutral-variant
+    "surface, on-surface":
+      chromaScale: 0.2
+    "neutral-variant":
+      chromaScale: 0.2
+  colors: {}

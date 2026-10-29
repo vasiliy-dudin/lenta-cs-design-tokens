@@ -8,9 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@materialx/material-color-utilities':
+        specifier: ^0.4.8
+        version: 0.4.8
       culori:
         specifier: ^4.0.2
         version: 4.0.2
+      js-yaml:
+        specifier: ^5.5.0
+        version: 5.5.0
       tsx:
         specifier: ^4.23.15
         version: 4.23.15
@@ -176,6 +182,12 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@materialx/material-color-utilities@0.4.8':
+    resolution: {integrity: sha512-YIjnG6K0pB1dZlRfd1f58TlXu3pCVUT5PtMS3PyhDq21P3EePvVj1McXbYMChhFv5yF/ESOHIoRD7AHQjYusHA==}
+
+  argparse@3.0.4:
+    resolution: {integrity: sha512-fwWK3Zq22l4XJJjx5mcBHGikIk+hJqO+32dPm0Jur7+rtG5x1scOjSfdT9ZKeWHPpsya/l0HHK4tDImBkTrtvA==}
+
   culori@4.0.2:
     resolution: {integrity: sha512-1+BhOB8ahCn4O0cep0Sh2l9KCOfOdY+BXJnKMHFFzDEouSr/el18QwXEMRlOj9UY5nCeA8UN3a/82rUWRBeyBw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -189,6 +201,10 @@ packages:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+
+  js-yaml@5.5.0:
+    resolution: {integrity: sha512-paNr4LFIFPjeeSmwNYdrb8FafLLG/Cr2Af3GjbsHJ5CxIjH4r0c2emlmRdAtpPAieP1gRVzk6buBbVP5gBMGAg==}
+    hasBin: true
 
   tsx@4.23.15:
     resolution: {integrity: sha512-Yiex1Ovn8z2xPpOWckIiysV1SSyRMY9BkLF++q0yKiDxCqRhosKfMg3janKkiLBwZ5c/YryloKwGZcrEmtwxKw==}
@@ -278,6 +294,10 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
+  '@materialx/material-color-utilities@0.4.8': {}
+
+  argparse@3.0.4: {}
+
   culori@4.0.2: {}
 
   esbuild@0.28.2:
@@ -311,6 +331,10 @@ snapshots:
 
   fsevents@2.3.3:
     optional: true
+
+  js-yaml@5.5.0:
+    dependencies:
+      argparse: 3.0.4
 
   tsx@4.23.15:
     dependencies:

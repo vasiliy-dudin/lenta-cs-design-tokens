@@ -13,6 +13,12 @@ This repo holds no application code of its own — it holds token data plus a co
 ## Token Pipeline
 
 ```
+m3-palette.config.yaml            (Material 3 palette generator settings)
+        │
+        ▼  scripts/m3-palette/ (npm run build-m3)
+        ▼
+src/5-m3-generated.json           (generated — Basic.colors-m3 + the M3 roles in Theme.schemes)
+        +
 src/<N>-<name>.json              (hand-edited sources, merged in numeric-prefix order)
         │
         ▼  scripts/merge-tokens.js (deep merge, plain Node, no deps)
@@ -29,7 +35,9 @@ dist/vuetify-theme.json (alternate path: resolves dist/tokens.json directly, wit
 ```
 
 - `dist/tokens.json` is a **build artifact**. Never hand-edit it without also updating the matching file in `src/`, or the next merge run will silently overwrite your change.
-- Run `npm run merge-tokens` after editing any `src/*.json` file to regenerate `dist/tokens.json`.
+- Run `npm run merge-tokens` after editing any `src/*.json` file to regenerate `dist/tokens.json`; `npm run build` runs the whole chain (`build-m3` → `merge-tokens` → `build-theme`).
+- M3 palettes and M3 roles come from the generator; custom roles (`default`, `info`, `background` and their `on-*`/`*-container`) stay in `src/1-semantic.json` and alias palette tones. Deep merge puts the generated roles after those custom ones in `Theme.schemes`, and `colors-m3` at the end of `Basic`.
+- Dark `background` is `darken({colors-m3.secondary-10}, 40%)` so it sits one surface step below the Dark `surface` (cards are darker than the backdrop otherwise). The 40% is tuned to the current `surface` lightness — recheck it if the generator config changes the Dark surfaces.
 - "Collections" = top-level keys in the JSON (e.g. `"Semantic"`, `"Components/Colors"`). They map 1:1 to Figma Variable Collections.
 
 ## Token Format
@@ -48,6 +56,8 @@ dist/vuetify-theme.json (alternate path: resolves dist/tokens.json directly, wit
 
 - `dist/tokens.json` — it's generated; edit the corresponding `src/*.json` instead and re-run `npm run merge-tokens`.
 - Top-level collection names (e.g. renaming `"Semantic"`) — bare-path aliases resolve across the entire merged tree, so a rename can silently break references in other collections/files.
+- `src/5-m3-generated.json` — it's generated; change `m3-palette.config.yaml` and re-run `npm run build`.
+- `scripts/m3-palette/roleOrder.ts` — the role order template must list exactly the roles the generator emits; adding or removing a role elsewhere without updating it fails the build on purpose.
 - `scripts/merge-tokens.js` — small and load-bearing; changing its merge semantics changes how every `src/*.json` file combines.
 - Anything under `scripts/vuetify-theme/core/` — this is a copied snapshot of the resolver logic from the external plugin (see below), kept in sync manually. Don't "fix" it locally without checking the upstream plugin first, or the two will drift apart silently.
 

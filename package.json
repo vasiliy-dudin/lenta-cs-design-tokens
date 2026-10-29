@@ -3,11 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "merge-tokens": "node scripts/merge-tokens.js",
-    "build-theme": "tsx scripts/vuetify-theme/build.ts"
+    "build": "npm run _build-m3 && npm run _merge-tokens && npm run _build-theme",
+    "_merge-tokens": "node scripts/merge-tokens.js",
+    "_build-theme": "tsx scripts/vuetify-theme/build.ts",
+    "_build-m3": "tsx scripts/m3-palette/build.ts"
   },
   "dependencies": {
+    "@materialx/material-color-utilities": "^0.4.8",
     "culori": "^4.0.2",
+    "js-yaml": "^5.5.0",
     "tsx": "^4.23.15",
     "zod": "^4.6.7"
   }
