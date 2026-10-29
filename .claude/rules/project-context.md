@@ -37,7 +37,7 @@ dist/vuetify-theme.json (alternate path: resolves dist/tokens.json directly, wit
 - `dist/tokens.json` is a **build artifact**. Never hand-edit it without also updating the matching file in `src/`, or the next merge run will silently overwrite your change.
 - Run `npm run merge-tokens` after editing any `src/*.json` file to regenerate `dist/tokens.json`; `npm run build` runs the whole chain (`build-m3` → `merge-tokens` → `build-theme`).
 - M3 palettes and M3 roles come from the generator; custom roles (`default`, `info`, `background` and their `on-*`/`*-container`) stay in `src/1-semantic.json` and alias palette tones. Deep merge puts the generated roles after those custom ones in `Theme.schemes`, and `colors-m3` at the end of `Basic`.
-- Dark `background` is `darken({colors-m3.secondary-10}, 40%)` so it sits one surface step below the Dark `surface` (cards are darker than the backdrop otherwise). The 40% is tuned to the current `surface` lightness — recheck it if the generator config changes the Dark surfaces.
+- Dark `background` is `{colors-m3.secondary-5}`, slightly lighter than the Dark `surface` (~tone 4 in SPEC_2025): no tinted palette tone is darker, and darkening it with `darken()` was rejected — accepted as is for now.
 - "Collections" = top-level keys in the JSON (e.g. `"Semantic"`, `"Components/Colors"`). They map 1:1 to Figma Variable Collections.
 
 ## Token Format

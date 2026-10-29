@@ -109,7 +109,7 @@ export default {
 				"on-default": "#342f2c",
 				info: "#c2c5dd",
 				"on-info": "#3c3f52",
-				background: "#060616",
+				background: "#0e1021",
 				"on-background": "#e0e2ee",
 				"default-container": "#7b2b00",
 				"on-default-container": "#c4bebb",
